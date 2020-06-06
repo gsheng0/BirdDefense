@@ -11,7 +11,7 @@ public class Enemy
     private Vector moveComponent;
     private int cooldown = 0;
     private int moveSpeed = 0;
-    private ArrayList<Bird> birdsInRange = new ArrayList<>();
+    private ArrayList<Bird> birdsInVision = new ArrayList<>();
     private int range = 5;
     public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, int moveSpeed, int size)
     {
@@ -90,7 +90,7 @@ public class Enemy
         moveComponent = new Vector(xDistance / ((double)time), yDistance / ((double)time));
 
     }
-    public boolean inRange(Entity other){ return this.getCenter().distanceFrom(other.getCenter()) - (this.size + other.getSize()) <= vision; }
+    public boolean inVision(Entity other){ return this.getCenter().distanceFrom(other.getCenter()) - (this.size + other.getSize()) <= vision; }
     public boolean canAttack(Entity other) { return this.getCenter().distanceFrom(other.getCenter()) - (this.size + other.getSize()) <= range; }
     public void attack(Entity en)
     {
@@ -98,24 +98,24 @@ public class Enemy
         if(en.getHealth()<=0)
             updateTarget();
     }
-    public void updateBirdsInRange()
+    public void updateBirdsInVision()
     {
-        birdsInRange = new ArrayList<>();
+        birdsInVision = new ArrayList<>();
         ArrayList<Bird> birds = map.getBirds();
         for(Bird bird : birds){
-            if(this.inRange(bird))
-                birdsInRange.add(bird);
+            if(this.inVision(bird))
+                birdsInVision.add(bird);
         }
     }
     public void updateTarget()
     {
-        updateBirdsInRange();
-        if(birdsInRange.size() < 1) {
+        updateBirdsInVision();
+        if(birdsInVision.size() < 1) {
             target = this.getMap().getNest();
         }
         else {
             double minDistance = Double.MAX_VALUE;
-            for (Bird bird : birdsInRange) {
+            for (Bird bird : birdsInVision) {
                 double distance = bird.getLocation().distanceFrom(this.location);
                 if (distance < minDistance) {
                     target = bird;
