@@ -2,13 +2,13 @@ import java.util.ArrayList;
 public class Bird
 {
     private Map map;
-    private int health, armor, damage, range, attackSpeed;
+    private int health, armor, damage, range, attackSpeed, size;
     private Vector location;
     private Enemy target;
     private ArrayList<Enemy> enemiesInRange = new ArrayList<>();
     private int cooldown;
     private boolean alive = true;
-    public Bird(Map map, int health, int armor, Vector location, int damage, int range, int attackSpeed)
+    public Bird(Map map, int health, int armor, Vector location, int damage, int range, int attackSpeed, int size)
     {
         this.map = map;
         this.health = health;
@@ -17,6 +17,7 @@ public class Bird
         this.damage = damage;
         this.range = range;
         this.attackSpeed = attackSpeed;
+        this.size = size;
     }
     public int getHealth() { return health; }
     public int getArmor() { return armor;}
@@ -70,5 +71,6 @@ public class Bird
         }
     }
     public boolean isAlive() { return alive; }
+    public int getSize() { return size; }
 
 }

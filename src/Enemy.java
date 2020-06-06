@@ -3,7 +3,7 @@ import java.util.*;
 public class Enemy
 {
     boolean alive = true;
-    int health, armor, damage, range, attackSpeed;
+    int health, armor, damage, range, attackSpeed, size;
     Map map;
     Vector location;
     Bird target;
@@ -11,7 +11,7 @@ public class Enemy
     private int cooldown = 0;
     private int moveSpeed = 0;
     private ArrayList<Bird> birdsInRange = new ArrayList<Bird>();
-    public Enemy(int health, int armor, Vector Location, int damage, int range, int attackSpeed, int moveSpeed)
+    public Enemy(int health, int armor, Vector Location, int damage, int range, int attackSpeed, int moveSpeed, int size)
     {
         this.health = health;
         this.armor = armor;
@@ -20,6 +20,7 @@ public class Enemy
         this.range = range;
         this.attackSpeed = attackSpeed;
         this.moveSpeed = moveSpeed;
+        this.size = size;
     }
     public int getMoveSpeed() { return moveSpeed; }
     public int getHealth()
@@ -46,6 +47,7 @@ public class Enemy
     {
         return attackSpeed;
     }
+    public int getSize() { return size; }
     public Map getMap()
     {
         return map;
@@ -94,7 +96,7 @@ public class Enemy
         birdsInRange = new ArrayList<>();
         ArrayList<Bird> birds = map.getBirds();
         for(Bird bird : birds){
-            if(bird.getLocation().distanceFrom(this.location) <= range)
+            if(bird.getLocation().distanceFrom(this.location) - (this.size + bird.getSize()) <= range)
                 birdsInRange.add(bird);
         }
     }
