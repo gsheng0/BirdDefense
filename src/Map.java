@@ -1,7 +1,7 @@
 import java.util.*;
 public class Map{
-    public ArrayList<Bird> birdList;
-    public ArrayList<Enemy> enemyList;
+    public ArrayList<Bird> birdList = new ArrayList<>();
+    public ArrayList<Enemy> enemyList = new ArrayList<>();
     Nest nest;
     public Map(){
 
