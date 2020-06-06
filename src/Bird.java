@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.awt.*;
 public class Bird extends Entity
 {
     private int damage, range, attackSpeed, size;
@@ -16,6 +17,14 @@ public class Bird extends Entity
     public int getDamage() { return damage; }
     public int getRange() { return range; }
     public int getAttackSpeed() { return attackSpeed; }
+    public void draw(Graphics g)
+    {
+        g.setColor(Color.CYAN);
+        g.fillOval((int)getLocation().getX(), (int)getLocation().getY(), getSize()*2, getSize()*2);
+        g.setColor(new Color(255 - ((getHealth()/100)*255), (getHealth()/100)*255, 0));
+        g.fillRect((int)getLocation().getX(), (int)getLocation().getY()-10, 25, 10);
+        System.out.println("BH: "+getHealth());
+    }
     public void attack(Enemy en){
         System.out.println("Attacked");
         en.takeDamage(this.damage);
@@ -45,7 +54,6 @@ public class Bird extends Entity
                 closest = distance;
             }
         }
-        System.out.println("Bird at: " + getLocation().toString() + " " + target);
     }
     public void exist(){
         updateTarget();

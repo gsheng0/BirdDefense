@@ -39,7 +39,7 @@ public class Runner extends JPanel{
     public void createBirds()
     {
         for(int x=0;x<7;x++)
-            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,33,150,5));
+            map.add(new Bird(map, 100, 1, Vector.randomVector(),15,33,150,5));
     }
     public static void main(String[] args) {
         new Runner();
@@ -93,7 +93,7 @@ public class Runner extends JPanel{
                         randomX = randomX < 100 ? 0 : frame.getWidth();
                     } 
                     else randomY = randomYRanges.getRandom();
-                    if(randomSpawn == 50)
+                    //if(randomSpawn == 50)
                         map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 8));
                 }
             }, 0, 20);  
@@ -113,7 +113,7 @@ public class Runner extends JPanel{
             }
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())
-                g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
+                bird.draw(g);
         }
     }
 }
