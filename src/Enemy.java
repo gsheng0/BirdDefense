@@ -59,29 +59,21 @@ public class Enemy
     {
         target.takeDamage(damage);
         if(target.getHealth()<=0)
-            updateBirdsInRange();
+            updateTarget();
     }
-    public void setBirdsInRange()
+    public void updateBirdsInRange()
     {
+        birdsInRange = new ArrayList<>();
         ArrayList<Bird> birds = map.getBirds();
-        for(Bird bird: birds)
-        {
+        for(Bird bird : birds){
             if(bird.getLocation().distanceFrom(this.location) <= range)
                 birdsInRange.add(bird);
         }
     }
-    public void updateBirdsInRange()
+    public void updateTarget()
     {
-        if(birdsInRange.size()<1)
+        if(birdsInRange.size() < 1)
             target = null;
-        else
-        {
-            birdsInRange.remove(target);
-            setTarget();
-        }
-    }
-    public void setTarget()
-    {
         double minDistance=Double.MAX_VALUE;
         for(Bird bird: birdsInRange)
         {

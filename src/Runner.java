@@ -20,6 +20,7 @@ public class Runner extends JPanel{
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        map.simulate();
         System.out.println(nest);
         g.drawOval((int)nest.getLocation().getX()-150, (int)nest.getLocation().getY()-150, 300, 300);
     }
