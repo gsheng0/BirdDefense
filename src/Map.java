@@ -28,7 +28,7 @@ public class Map{
             birds.remove(en);
         }
     }
-    public void remove(Enemy en){
-        enemies.remove(en);
+    public void remove(Enemy enemy){
+        enemies.remove(enemy);
     }
 }
