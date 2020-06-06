@@ -19,18 +19,19 @@ public class Bird extends Entity
     public void attack(Enemy en){
         System.out.println("Attacked");
         en.takeDamage(this.damage);
-        if(en.getHealth() <= 0)
-            updateTarget();
     }
     public void updateEnemiesInRange(){
         enemiesInRange = new ArrayList<Enemy>();
         ArrayList<Enemy> enemies = this.getMap().getEnemies();
         for(Enemy enemy : enemies){
-            if(enemy.getLocation().distanceFrom(this.getLocation()) <= range)
+            if(this.inRange(enemy))
                 enemiesInRange.add(enemy);
         }
     }
+    public boolean inRange(Enemy en){ return this.getCenter().distanceFrom(en.getCenter()) - (this.size + en.getSize()) <= range; }
     public void updateTarget(){
+        System.out.println(enemiesInRange.size());
+        updateEnemiesInRange();
         if(enemiesInRange.size() < 1) {
             target = null;
             return;
@@ -44,8 +45,10 @@ public class Bird extends Entity
                 closest = distance;
             }
         }
+        System.out.println("Bird at: " + getLocation().toString() + " " + target);
     }
     public void exist(){
+        updateTarget();
         if(cooldown <= 0){
             if(target != null){
                 this.attack(target);

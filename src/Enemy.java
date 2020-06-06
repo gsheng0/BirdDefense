@@ -130,8 +130,10 @@ public class Enemy
     public void takeDamage(int damageGiven)
     {
         health -= (damageGiven-armor);
-        if(health <= 0)
+        if(health <= 0) {
             alive = false;
+            map.remove(this);
+        }
     }
 
 }
