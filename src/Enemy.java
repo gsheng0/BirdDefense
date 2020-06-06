@@ -5,19 +5,22 @@ public class Enemy
     boolean alive = true;
     int health, armor, damage, range, attackSpeed;
     Map map;
-    Location location;
+    Vector vector;
     Bird target;
-    private int cooldown = attackSpeed;
+    private int cooldown = 0;
+    private int moveSpeed = 0;
     private ArrayList<Bird> birdsInRange = new ArrayList<Bird>();
-    public Enemy(int health, int armor, Location location, int damage, int range, int attackSpeed)
+    public Enemy(int health, int armor, Vector vector, int damage, int range, int attackSpeed, int moveSpeed)
     {
         this.health = health;
         this.armor = armor;
-        this.location = location;
+        this.vector = vector;
         this.damage = damage;
         this.range = range;
         this.attackSpeed = attackSpeed;
+        this.moveSpeed = moveSpeed;
     }
+    public int getMoveSpeed() { return moveSpeed; }
     public int getHealth()
     {
         return health;
@@ -26,9 +29,9 @@ public class Enemy
     {
         return armor;
     }
-    public Location getLocation()
+    public Vector getVector()
     {
-        return location;
+        return vector;
     }
     public int getDamage()
     {
@@ -49,11 +52,21 @@ public class Enemy
     public void exist() //called every frame
     {
         cooldown--;
-        if(cooldown <= 0)
-        {
-            attack(target); //find nearest bird
-            cooldown = attackSpeed;
+        if(target != null){
+            if(birdsInRange.contains(target))
+            {
+                if(cooldown <= 0)
+                {
+                    this.attack(target);
+                    cooldown = attackSpeed;
+                }
+            }
         }
+    }
+    public void moveTowards(Vector vector){
+        double distance = this.vector.distanceFrom(vector);
+        double time = distance / ((double)moveSpeed);
+        
     }
     public void attack(Bird bird)
     {
@@ -66,7 +79,7 @@ public class Enemy
         birdsInRange = new ArrayList<>();
         ArrayList<Bird> birds = map.getBirds();
         for(Bird bird : birds){
-            if(bird.getLocation().distanceFrom(this.location) <= range)
+            if(bird.getVector().distanceFrom(this.vector) <= range)
                 birdsInRange.add(bird);
         }
     }
@@ -77,7 +90,7 @@ public class Enemy
         double minDistance=Double.MAX_VALUE;
         for(Bird bird: birdsInRange)
         {
-            double distance = bird.getLocation().distanceFrom(this.location);
+            double distance = bird.getVector().distanceFrom(this.vector);
             if(distance<minDistance)
             {
                 target = bird;
@@ -96,6 +109,8 @@ public class Enemy
     public void takeDamage(int damageGiven)
     {
         health -= (damageGiven-armor);
+        if(health <= 0)
+            alive = false;
     }
 
 }
