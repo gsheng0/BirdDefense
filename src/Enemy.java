@@ -1,27 +1,36 @@
+import java.awt.*;
 import java.util.*;
 
 public class Enemy
 {
-    boolean alive = true;
-    int health, armor, damage, range, attackSpeed, size;
-    Map map;
-    Vector location;
-    Entity target;
+    private boolean alive = true;
+    private int health, armor, damage, vision, attackSpeed, size;
+    private Map map;
+    private Vector location;
+    private Entity target;
     private Vector moveComponent;
     private int cooldown = 0;
     private int moveSpeed = 0;
     private ArrayList<Bird> birdsInRange = new ArrayList<>();
-    public Enemy(Map map, int health, int armor, Vector Location, int damage, int range, int attackSpeed, int moveSpeed, int size)
+    private int range = 5;
+    public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, int moveSpeed, int size)
     {
         this.map = map;
         this.health = health;
         this.armor = armor;
         this.location = Location;
         this.damage = damage;
-        this.range = range;
+        this.vision = vision;
         this.attackSpeed = attackSpeed;
         this.moveSpeed = moveSpeed;
         this.size = size;
+    }
+    public Vector getCenter(){
+        return new Vector(location.x + size, location.y + size);
+    }
+    public void draw(Graphics g){
+        g.setColor(Color.CYAN);
+        g.fillOval((int)location.x, (int)location.y, size * 2, size * 2);
     }
     public int getMoveSpeed() { return moveSpeed; }
     public int getHealth()
@@ -40,9 +49,9 @@ public class Enemy
     {
         return damage;
     }
-    public int getRange()
+    public int getVision()
     {
-        return range;
+        return vision;
     }
     public int getAttackSpeed()
     {
@@ -58,7 +67,7 @@ public class Enemy
         cooldown--;
         updateTarget();
 
-        if(birdsInRange.contains(target))
+        if(this.canAttack(target))
         {
             if(cooldown <= 0)
             {
@@ -74,13 +83,15 @@ public class Enemy
 
     }
     public void setMoveComponent(Vector other){
-        double distance = this.location.distanceFrom(other);
+        double distance = this.getCenter().distanceFrom(other);
         double time = distance / ((double)moveSpeed);
         double xDistance = other.x - location.x;
         double yDistance = other.y - location.y;
         moveComponent = new Vector(xDistance / ((double)time), yDistance / ((double)time));
 
     }
+    public boolean inRange(Entity other){ return this.getCenter().distanceFrom(other.getCenter()) - (this.size + other.getSize()) <= vision; }
+    public boolean canAttack(Entity other) { return this.getCenter().distanceFrom(other.getCenter()) - (this.size + other.getSize()) <= range; }
     public void attack(Entity en)
     {
         en.takeDamage(damage);
@@ -92,14 +103,15 @@ public class Enemy
         birdsInRange = new ArrayList<>();
         ArrayList<Bird> birds = map.getBirds();
         for(Bird bird : birds){
-            if(bird.getLocation().distanceFrom(this.location) - (this.size + bird.getSize()) <= range)
+            if(this.inRange(bird))
                 birdsInRange.add(bird);
         }
     }
     public void updateTarget()
     {
+        updateBirdsInRange();
         if(birdsInRange.size() < 1) {
-            target = this.getMap().nest;
+            target = this.getMap().getNest();
         }
         else {
             double minDistance = Double.MAX_VALUE;
@@ -111,9 +123,7 @@ public class Enemy
                 }
             }
         }
-        System.out.println("Target: " + target);
-        System.out.println("\tTarget location: " + target.getLocation().x);
-        setMoveComponent(target.getLocation());
+        setMoveComponent(target.getCenter());
     }
     public Entity getTarget() { return target; }
     public boolean isAlive() { return alive; }

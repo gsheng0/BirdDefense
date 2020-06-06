@@ -17,6 +17,7 @@ public class Bird extends Entity
     public int getRange() { return range; }
     public int getAttackSpeed() { return attackSpeed; }
     public void attack(Enemy en){
+        System.out.println("Attacked");
         en.takeDamage(this.damage);
         if(en.getHealth() <= 0)
             updateTarget();
@@ -30,8 +31,10 @@ public class Bird extends Entity
         }
     }
     public void updateTarget(){
-        if(enemiesInRange.size() < 1)
+        if(enemiesInRange.size() < 1) {
             target = null;
+            return;
+        }
         double closest = 10000000000.0;
         for(Enemy enemy : enemiesInRange){
             double distance = enemy.getLocation().distanceFrom(this.getLocation());

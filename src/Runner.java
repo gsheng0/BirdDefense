@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
 import java.awt.event.*;
 import java.util.*;
-import java.io.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Runner extends JPanel implements ActionListener{
+public class Runner extends JPanel{
     JFrame frame;
     CardLayout cardLayout = new CardLayout();
     JPanel menuPanel, mainPanel;
@@ -21,7 +19,10 @@ public class Runner extends JPanel implements ActionListener{
         frame = new JFrame("Bird Game");
         menuPanel = new JPanel();
         gamePanel = new GamePanel();
-        startButton.addActionListener(this);
+        startButton.addActionListener(e -> {
+            cardLayout.show(mainPanel, "game");
+
+        });
         menuPanel.add(startButton);
         mainPanel = new JPanel(cardLayout);
         mainPanel.add(menuPanel, "menu");
@@ -34,7 +35,7 @@ public class Runner extends JPanel implements ActionListener{
     public void createBirds()
     {
         for(int x=0;x<7;x++)
-            map.getBirds().add(new Bird(map, 100, 5, Vector.randomVector(),5,5,5,5));
+            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,5,150,5));
     }
     public static void main(String[] args) {
         new Runner();
@@ -54,17 +55,11 @@ public class Runner extends JPanel implements ActionListener{
         }
         int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == startButton){
-            cardLayout.show(mainPanel, "game");
-        }
-    }
     class GamePanel extends JPanel{
         public GamePanel(){
             add(new JLabel("Game"));
-            nest = new Nest(map, new Vector(500, 400));
+            nest = new Nest(map, new Vector(350, 250));
+            map.setNest(nest);
             createBirds();
             enemySpawnTimer = new Timer();
             enemySpawnTimer.schedule(new TimerTask(){
@@ -87,8 +82,8 @@ public class Runner extends JPanel implements ActionListener{
                         randomX = randomX < 100 ? 0 : frame.getWidth();
                     } 
                     else randomY = randomYRanges.getRandom();
-                    if(randomSpawn == 50)
-                        map.getEnemies().add(new Enemy(100, 2, new Vector(randomX, randomY), 3, 3, 3, 3, 3));
+                    if(true || randomSpawn == 50)
+                        map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 8));
                 }
             }, 0, 20);  
         }
@@ -99,15 +94,15 @@ public class Runner extends JPanel implements ActionListener{
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             map.simulate();
-            g.drawOval((int)nest.getLocation().getX()-150, (int)nest.getLocation().getY()-150, 300, 300);
+            g.drawOval((int)nest.getLocation().getX(), (int)nest.getLocation().getY(), 300, 300);
             g.setColor(Color.RED);
-            for(Enemy enemy : map.enemyList){
-                g.fillOval((int)enemy.location.x, (int)enemy.location.y, 15, 15);
+            for(Enemy enemy : map.getEnemies()){
+                g.fillOval((int)enemy.getLocation().x, (int)enemy.getLocation().y, enemy.getSize() * 2, enemy.getSize() * 2);
             }
             g.setColor(Color.CYAN);
+            System.out.println(map.getBirds().size());
             for(Bird bird: map.getBirds())
-                g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), 30, 30);
-            System.out.println(map.enemyList.size());
+                g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
         }
     }
 }
