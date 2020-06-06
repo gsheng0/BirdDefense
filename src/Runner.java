@@ -58,9 +58,10 @@ public class Runner extends JPanel{
     class GamePanel extends JPanel{
         public GamePanel(){
             add(new JLabel("Game"));
-            nest = new Nest(map, new Vector(500, 400));
+            nest = new Nest(map, new Vector(350, 250));
+            System.out.println(nest.getCenter());
             map.setNest(nest);
-            createBirds();
+            //createBirds();
             enemySpawnTimer = new Timer();
             enemySpawnTimer.schedule(new TimerTask(){
                 @Override
@@ -94,10 +95,10 @@ public class Runner extends JPanel{
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             map.simulate();
-            g.drawOval((int)nest.getLocation().getX()-150, (int)nest.getLocation().getY()-150, 300, 300);
+            g.drawOval((int)nest.getLocation().getX(), (int)nest.getLocation().getY(), 300, 300);
             g.setColor(Color.RED);
             for(Enemy enemy : map.getEnemies()){
-                g.fillOval((int)enemy.location.x, (int)enemy.location.y, 15, 15);
+                g.fillOval((int)enemy.getLocation().x, (int)enemy.getLocation().y, 15, 15);
             }
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())

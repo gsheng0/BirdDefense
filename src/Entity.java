@@ -10,6 +10,9 @@ public class Entity {
         this.armor = armor;
         this.size = size;
     }
+    public Vector getCenter() {
+        return new Vector(location.x + size, location.y + size);
+    }
     public Map getMap() { return map; }
     public int getHealth() { return health; }
     public int getArmor() { return armor;}

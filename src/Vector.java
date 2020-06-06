@@ -39,4 +39,7 @@ public class Vector {
     public double distanceFrom(Vector other){
         return Math.sqrt(  (this.x - other.x) * (this.x - other.x) + (this.y - other.y) * (this.y - other.y) );
     }
+    public String toString(){
+        return "[" + x + ", " + y + "]";
+    }
 }
