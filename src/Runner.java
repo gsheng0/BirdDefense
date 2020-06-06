@@ -35,7 +35,7 @@ public class Runner extends JPanel{
     public void createBirds()
     {
         for(int x=0;x<7;x++)
-            map.getBirds().add(new Bird(map, 100, 5, Vector.randomVector(),5,5,5,5));
+            map.add(new Bird(map, 100, 5, Vector.randomVector(),5,5,5,5));
     }
     public static void main(String[] args) {
         new Runner();
@@ -61,7 +61,7 @@ public class Runner extends JPanel{
             nest = new Nest(map, new Vector(350, 250));
             System.out.println(nest.getCenter());
             map.setNest(nest);
-            //createBirds();
+            createBirds();
             enemySpawnTimer = new Timer();
             enemySpawnTimer.schedule(new TimerTask(){
                 @Override
@@ -84,7 +84,7 @@ public class Runner extends JPanel{
                     } 
                     else randomY = randomYRanges.getRandom();
                     if(randomSpawn == 50)
-                        map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 3, 3, 3, 3));
+                        map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 3));
                 }
             }, 0, 20);  
         }
