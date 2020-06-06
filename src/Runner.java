@@ -39,7 +39,7 @@ public class Runner extends JPanel{
     public void createBirds()
     {
         for(int x=0;x<7;x++)
-            map.add(new Bird(map, 100, 1, Vector.randomVector(),15,33,150,5));
+            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,33,150,5));
     }
     public static void main(String[] args) {
         new Runner();
@@ -61,12 +61,15 @@ public class Runner extends JPanel{
     }
     class GamePanel extends JPanel{
         BufferedImage bat;
+        BufferedImage nestImage;
         public GamePanel(){
             add(new JLabel("Game"));
             nest = new Nest(map, new Vector(350, 250));
             URL resource = getClass().getResource("bat.png");
             try {
                 bat = ImageIO.read(resource);
+                resource = getClass().getResource("nest.png");
+                nestImage = ImageIO.read(resource);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -93,7 +96,7 @@ public class Runner extends JPanel{
                         randomX = randomX < 100 ? 0 : frame.getWidth();
                     } 
                     else randomY = randomYRanges.getRandom();
-                    //if(randomSpawn == 50)
+                    if(randomSpawn == 50)
                         map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 8));
                 }
             }, 0, 20);  
@@ -105,15 +108,21 @@ public class Runner extends JPanel{
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
             map.simulate();
-            g.drawOval((int)nest.getLocation().getX(), (int)nest.getLocation().getY(), 300, 300);
+            Graphics2D g2d = (Graphics2D) g;
+            Color color1 = new Color(120,241,255);
+            Color color2 = color1.darker();
+            GradientPaint gp = new GradientPaint(
+                0, 0, color1, 0, 800, color2);
+            g2d.setPaint(gp);
+            g2d.fillRect(0, 0, 1000, 800);
+            g.drawImage(nestImage, (int)nest.getLocation().getX(), (int)nest.getLocation().getY(), null);
             g.setColor(Color.RED);
             for(Enemy enemy : map.getEnemies()){
-                //g.fillOval((int)enemy.getLocation().x, (int)enemy.getLocation().y, enemy.getSize() * 2, enemy.getSize() * 2);
                 g.drawImage(bat, (int)enemy.getLocation().x, (int)enemy.getLocation().y, null);
             }
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())
-                bird.draw(g);
+                g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
         }
     }
 }
