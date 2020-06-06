@@ -20,10 +20,25 @@ public class Runner extends JPanel{
         enemySpawnTimer.schedule(new TimerTask(){
             @Override
             public void run() {
-                int random = (int)((Math.random()*100)+1);
-                if(random == 50)
-                    map.getEnemies().add(new Enemy(100, 2, new Vector(5, 5), 3, 3, 3, 3));
+                creatingRandomEnemies();
                 repaint();
+            }
+            public void creatingRandomEnemies(){
+                int randomSpawn = (int)((Math.random()*100)+1);
+                RandomInRanges randomXRanges = new RandomInRanges(51,949);
+                RandomInRanges randomYRanges = new RandomInRanges(0,0);
+                randomYRanges.addRange(800,800);
+                randomXRanges.addRange(0, 100);
+                randomXRanges.addRange(900, 1000);
+                int randomX = randomXRanges.getRandom();
+                int randomY = 0;
+                if(randomX < 100 || randomX > 900){
+                    randomY = (int)(Math.random() * frame.getHeight());
+                    randomX = randomX < 100 ? 0 : frame.getWidth();
+                } 
+                else randomY = randomYRanges.getRandom();
+                if(randomSpawn == 50)
+                    map.getEnemies().add(new Enemy(100, 2, new Vector(randomX, randomY), 3, 3, 3, 3, 3));
             }
         }, 0, 20);  
         frame.add(this);
@@ -41,11 +56,23 @@ public class Runner extends JPanel{
         }
         System.out.println(map.enemyList.size());
     }
-    public void handle(InputEvent event){
-        System.out.println("yo");
-
-    }
+    
     public static void main(String[] args) {
         new Runner();
+    }
+    class RandomInRanges{
+        private ArrayList<Integer> range = new ArrayList<>();
+        RandomInRanges(int min, int max)
+        {
+            this.addRange(min, max);
+        }
+        final void addRange(int min, int max)
+        {
+            for(int i = min; i <= max; i++)
+            {
+                this.range.add(i);
+            }
+        }
+        int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
     }
 }
