@@ -4,6 +4,10 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.awt.image.*;
+import javax.imageio.*;
+import java.io.*;
+import java.net.URL;
 
 public class Runner extends JPanel{
     JFrame frame;
@@ -56,9 +60,16 @@ public class Runner extends JPanel{
         int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
     }
     class GamePanel extends JPanel{
+        BufferedImage bat;
         public GamePanel(){
             add(new JLabel("Game"));
             nest = new Nest(map, new Vector(350, 250));
+            URL resource = getClass().getResource("bat.png");
+            try {
+                bat = ImageIO.read(resource);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             map.setNest(nest);
             createBirds();
             enemySpawnTimer = new Timer();
@@ -97,7 +108,8 @@ public class Runner extends JPanel{
             g.drawOval((int)nest.getLocation().getX(), (int)nest.getLocation().getY(), 300, 300);
             g.setColor(Color.RED);
             for(Enemy enemy : map.getEnemies()){
-                g.fillOval((int)enemy.getLocation().x, (int)enemy.getLocation().y, enemy.getSize() * 2, enemy.getSize() * 2);
+                //g.fillOval((int)enemy.getLocation().x, (int)enemy.getLocation().y, enemy.getSize() * 2, enemy.getSize() * 2);
+                g.drawImage(bat, (int)enemy.getLocation().x, (int)enemy.getLocation().y, null);
             }
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())
