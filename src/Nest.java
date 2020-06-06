@@ -1,12 +1,12 @@
 public class Nest {
     Map map;
-    Vector vector;
+    Vector location;
     int health;
     int armor;
     boolean alive;
-    public Nest(Map map, Vector vector){
+    public Nest(Map map, Vector location){
         this.map = map;
-        this.vector = vector;
+        this.location = location;
         this.health = 1000;
         this.armor = 3;
         this.alive = true;
@@ -19,7 +19,7 @@ public class Nest {
         this.health = health;
         setAlive();
     }
-    public Vector getVector(){ return this.vector; }
+    public Vector getLocation(){ return this.location; }
     public void setAlive(){
         this.alive = health > 0 ? true : false;
     }

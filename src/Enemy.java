@@ -53,6 +53,7 @@ public class Enemy
     public void exist() //called every frame
     {
         cooldown--;
+        updateTarget();
         if(target != null){
             if(birdsInRange.contains(target)) //in range
             {
@@ -68,7 +69,10 @@ public class Enemy
             }
         }
         else {
-            updateTarget();
+            setMoveComponent(new Vector(500, 400));
+            this.location.x += moveComponent.x;
+            this.location.y += moveComponent.y;
+
         }
     }
     public void setMoveComponent(Vector other){
@@ -96,8 +100,10 @@ public class Enemy
     }
     public void updateTarget()
     {
-        if(birdsInRange.size() < 1)
+        if(birdsInRange.size() < 1) {
             target = null;
+            return;
+        }
         double minDistance=Double.MAX_VALUE;
         for(Bird bird: birdsInRange)
         {

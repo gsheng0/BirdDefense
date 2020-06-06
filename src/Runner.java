@@ -15,14 +15,14 @@ public class Runner extends JPanel{
 
     public Runner() {
         frame = new JFrame("Bird Game");
-        nest = new Nest(map, new Location(500, 400));
+        nest = new Nest(map, new Vector(500, 400));
         enemySpawnTimer = new Timer();
         enemySpawnTimer.schedule(new TimerTask(){
             @Override
             public void run() {
                 int random = (int)((Math.random()*100)+1);
                 if(random == 50)
-                    map.getEnemies().add(new Enemy(100, 2, new Location(5, 5), 3, 3, 3));
+                    map.getEnemies().add(new Enemy(100, 2, new Vector(5, 5), 3, 3, 3, 3));
                 repaint();
             }
         }, 0, 20);  
@@ -33,9 +33,13 @@ public class Runner extends JPanel{
     }
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        map.simulate();
         g.drawOval((int)nest.getLocation().getX()-150, (int)nest.getLocation().getY()-150, 300, 300);
-        System.out.println(nest.getHealth());
-        System.out.println(map.enemyList != null ? map.enemyList : 1);
+        g.setColor(Color.RED);
+        for(Enemy enemy : map.enemyList){
+            g.fillOval((int)enemy.location.x, (int)enemy.location.y, 15, 15);
+        }
+        System.out.println(map.enemyList.size());
     }
     public void handle(InputEvent event){
         System.out.println("yo");
