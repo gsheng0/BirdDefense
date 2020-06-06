@@ -106,7 +106,6 @@ public class Enemy
             if(this.inRange(bird))
                 birdsInRange.add(bird);
         }
-        System.out.println("Birds in range: " + birdsInRange.size());
     }
     public void updateTarget()
     {
@@ -124,8 +123,6 @@ public class Enemy
                 }
             }
         }
-        System.out.println("Target: " + target);
-        System.out.println("\tTarget location: " + target.getLocation().x);
         setMoveComponent(target.getCenter());
     }
     public Entity getTarget() { return target; }

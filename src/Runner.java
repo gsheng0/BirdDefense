@@ -35,7 +35,7 @@ public class Runner extends JPanel{
     public void createBirds()
     {
         for(int x=0;x<7;x++)
-            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,5,5,5));
+            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,5,150,5));
     }
     public static void main(String[] args) {
         new Runner();
@@ -59,7 +59,6 @@ public class Runner extends JPanel{
         public GamePanel(){
             add(new JLabel("Game"));
             nest = new Nest(map, new Vector(350, 250));
-            System.out.println(nest.getCenter());
             map.setNest(nest);
             createBirds();
             enemySpawnTimer = new Timer();
@@ -101,9 +100,9 @@ public class Runner extends JPanel{
                 g.fillOval((int)enemy.getLocation().x, (int)enemy.getLocation().y, enemy.getSize() * 2, enemy.getSize() * 2);
             }
             g.setColor(Color.CYAN);
+            System.out.println(map.getBirds().size());
             for(Bird bird: map.getBirds())
                 g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
-            System.out.println(map.getEnemies().size());
         }
     }
 }
