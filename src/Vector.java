@@ -1,12 +1,12 @@
 import java.awt.Point;
-public class Location{
+public class Vector {
     double x;
     double y;
-    public Location(double x, double y){
+    public Vector(double x, double y){
         this.x = x;
         this.y = y;
     }
-    public Location (Point point){
+    public Vector(Point point){
         this.x = point.x;
         this.y = point.y;
     }
@@ -17,7 +17,7 @@ public class Location{
         return y;
     }
 
-    public double distanceFrom(Location other){
+    public double distanceFrom(Vector other){
         return Math.sqrt(  (this.x - other.x) * (this.x - other.x) + (this.y - other.y) * (this.y - other.y) );
     }
 }

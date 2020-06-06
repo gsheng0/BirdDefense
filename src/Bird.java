@@ -3,12 +3,12 @@ public class Bird
 {
     private Map map;
     private int health, armor, damage, range, attackSpeed;
-    private Location location;
+    private Vector location;
     private Enemy target;
     private ArrayList<Enemy> enemiesInRange = new ArrayList<>();
     private int cooldown;
     private boolean alive = true;
-    public Bird(Map map, int health, int armor, Location location, int damage, int range, int attackSpeed)
+    public Bird(Map map, int health, int armor, Vector location, int damage, int range, int attackSpeed)
     {
         this.map = map;
         this.health = health;
@@ -23,7 +23,7 @@ public class Bird
     public int getDamage() { return damage; }
     public int getRange() { return range; }
     public int getAttackSpeed() { return attackSpeed; }
-    public Location getLocation() { return location; }
+    public Vector getLocation() { return location; }
     public Map getMap() { return map; }
     public void attack(Enemy en){
         en.takeDamage(this.damage);

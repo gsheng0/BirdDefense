@@ -10,6 +10,7 @@ public class Map{
         enemyList.stream().forEach(Enemy::exist);
         birdList.stream().forEach(Bird::exist);
     }
+
     public ArrayList<Enemy> getEnemies(){ return enemyList; }
     public ArrayList<Bird> getBirds() { return birdList; }
 }
