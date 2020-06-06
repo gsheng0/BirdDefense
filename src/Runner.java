@@ -7,14 +7,19 @@ import java.io.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Runner extends JPanel{
+public class Runner extends JPanel implements ActionListener{
     JFrame frame;
+    JPanel startPanel;
+    JPanel gamePanel;
+    JButton startButton = new JButton("Start Game");
     Map map = new Map();
     Nest nest;
     Timer enemySpawnTimer;
 
     public Runner() {
         frame = new JFrame("Bird Game");
+        startPanel = new JPanel();
+        startButton.addActionListener(this);
         nest = new Nest(map, new Vector(500, 400));
         enemySpawnTimer = new Timer();
         enemySpawnTimer.schedule(new TimerTask(){
@@ -74,5 +79,13 @@ public class Runner extends JPanel{
             }
         }
         int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource() == startButton){
+            frame.remove(startPanel);
+            frame.add(gamePanel);
+        }
     }
 }
