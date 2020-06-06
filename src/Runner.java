@@ -65,7 +65,6 @@ public class Runner extends JPanel implements ActionListener{
         public GamePanel(){
             add(new JLabel("Game"));
             nest = new Nest(map, new Vector(500, 400));
-            map.nest = nest;
             createBirds();
             enemySpawnTimer = new Timer();
             enemySpawnTimer.schedule(new TimerTask(){
