@@ -1,13 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.*;
 import java.awt.event.*;
 import java.util.*;
-import java.io.*;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Runner extends JPanel implements ActionListener{
+public class Runner extends JPanel{
     JFrame frame;
     CardLayout cardLayout = new CardLayout();
     JPanel menuPanel, mainPanel;
@@ -21,7 +19,10 @@ public class Runner extends JPanel implements ActionListener{
         frame = new JFrame("Bird Game");
         menuPanel = new JPanel();
         gamePanel = new GamePanel();
-        startButton.addActionListener(this);
+        startButton.addActionListener(e -> {
+            cardLayout.show(mainPanel, "game");
+
+        });
         menuPanel.add(startButton);
         mainPanel = new JPanel(cardLayout);
         mainPanel.add(menuPanel, "menu");
@@ -54,18 +55,11 @@ public class Runner extends JPanel implements ActionListener{
         }
         int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
     }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == startButton){
-            cardLayout.show(mainPanel, "game");
-        }
-    }
     class GamePanel extends JPanel{
         public GamePanel(){
             add(new JLabel("Game"));
             nest = new Nest(map, new Vector(500, 400));
-            map.nest = nest;
+            map.setNest(nest);
             createBirds();
             enemySpawnTimer = new Timer();
             enemySpawnTimer.schedule(new TimerTask(){
@@ -89,7 +83,7 @@ public class Runner extends JPanel implements ActionListener{
                     } 
                     else randomY = randomYRanges.getRandom();
                     if(randomSpawn == 50)
-                        map.getEnemies().add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 3, 3, 3, 3));
+                        map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 3, 3, 3, 3));
                 }
             }, 0, 20);  
         }
@@ -102,13 +96,13 @@ public class Runner extends JPanel implements ActionListener{
             map.simulate();
             g.drawOval((int)nest.getLocation().getX()-150, (int)nest.getLocation().getY()-150, 300, 300);
             g.setColor(Color.RED);
-            for(Enemy enemy : map.enemyList){
+            for(Enemy enemy : map.getEnemies()){
                 g.fillOval((int)enemy.location.x, (int)enemy.location.y, 15, 15);
             }
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())
                 g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), 30, 30);
-            System.out.println(map.enemyList.size());
+            System.out.println(map.getEnemies().size());
         }
     }
 }

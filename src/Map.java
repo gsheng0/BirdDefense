@@ -1,24 +1,31 @@
 import java.util.*;
 public class Map{
-    public ArrayList<Bird> birdList = new ArrayList<>();
-    public ArrayList<Enemy> enemyList = new ArrayList<>();
-    Nest nest;
+    private ArrayList<Bird> birds = new ArrayList<>();
+    private ArrayList<Enemy> enemies = new ArrayList<>();
+    private Nest nest;
     public Map(){
 
     }
+    public void setNest(Nest nest){ this.nest = nest; }
     public void simulate(){
-        enemyList.stream().forEach(Enemy::exist);
-        birdList.stream().forEach(Bird::exist);
+        enemies.stream().forEach(Enemy::exist);
+        birds.stream().forEach(Bird::exist);
     }
-
-    public ArrayList<Enemy> getEnemies(){ return enemyList; }
-    public ArrayList<Bird> getBirds() { return birdList; }
+    public void add(Enemy en){
+        enemies.add(en);
+    }
+    public void add(Bird bird){
+        birds.add(bird);
+    }
+    public Nest getNest() { return nest; }
+    public ArrayList<Enemy> getEnemies(){ return enemies; }
+    public ArrayList<Bird> getBirds() { return birds; }
     public void remove(Entity en){
         if(en instanceof Nest){
             //lose
         }
         else if(en instanceof Bird){
-            birdList.remove(en);
+            birds.remove(en);
         }
     }
 }

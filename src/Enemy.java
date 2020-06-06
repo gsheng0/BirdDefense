@@ -99,7 +99,7 @@ public class Enemy
     public void updateTarget()
     {
         if(birdsInRange.size() < 1) {
-            target = this.getMap().nest;
+            target = this.getMap().getNest();
         }
         else {
             double minDistance = Double.MAX_VALUE;
