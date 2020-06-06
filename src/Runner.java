@@ -16,6 +16,7 @@ public class Runner extends JPanel{
     public Runner() {
         frame = new JFrame("Bird Game");
         nest = new Nest(map, new Vector(500, 400));
+        map.nest = nest;
         createBirds();
         enemySpawnTimer = new Timer();
         enemySpawnTimer.schedule(new TimerTask(){

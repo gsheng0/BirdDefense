@@ -69,6 +69,7 @@ public class Enemy
         else {
             this.location.x += moveComponent.x;
             this.location.y += moveComponent.y;
+
         }
 
     }
@@ -99,19 +100,19 @@ public class Enemy
     {
         if(birdsInRange.size() < 1) {
             target = this.getMap().nest;
-            return;
         }
-        double minDistance=Double.MAX_VALUE;
-        for(Bird bird: birdsInRange)
-        {
-            double distance = bird.getLocation().distanceFrom(this.location);
-            if(distance<minDistance)
-            {
-                target = bird;
-                minDistance = distance;
+        else {
+            double minDistance = Double.MAX_VALUE;
+            for (Bird bird : birdsInRange) {
+                double distance = bird.getLocation().distanceFrom(this.location);
+                if (distance < minDistance) {
+                    target = bird;
+                    minDistance = distance;
+                }
             }
         }
-
+        System.out.println("Target: " + target);
+        System.out.println("\tTarget location: " + target.getLocation().x);
         setMoveComponent(target.getLocation());
     }
     public Entity getTarget() { return target; }
