@@ -35,7 +35,7 @@ public class Runner extends JPanel{
     public void createBirds()
     {
         for(int x=0;x<7;x++)
-            map.add(new Bird(map, 100, 5, Vector.randomVector(),5,5,5,5));
+            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,5,5,5));
     }
     public static void main(String[] args) {
         new Runner();
@@ -83,8 +83,8 @@ public class Runner extends JPanel{
                         randomX = randomX < 100 ? 0 : frame.getWidth();
                     } 
                     else randomY = randomYRanges.getRandom();
-                    if(randomSpawn == 50)
-                        map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 3));
+                    if(true || randomSpawn == 50)
+                        map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 8));
                 }
             }, 0, 20);  
         }
@@ -98,11 +98,11 @@ public class Runner extends JPanel{
             g.drawOval((int)nest.getLocation().getX(), (int)nest.getLocation().getY(), 300, 300);
             g.setColor(Color.RED);
             for(Enemy enemy : map.getEnemies()){
-                g.fillOval((int)enemy.getLocation().x, (int)enemy.getLocation().y, 15, 15);
+                g.fillOval((int)enemy.getLocation().x, (int)enemy.getLocation().y, enemy.getSize() * 2, enemy.getSize() * 2);
             }
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())
-                g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), 30, 30);
+                g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
             System.out.println(map.getEnemies().size());
         }
     }

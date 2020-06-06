@@ -4,7 +4,7 @@ import java.util.*;
 public class Enemy
 {
     private boolean alive = true;
-    private int health, armor, damage, range, attackSpeed, size;
+    private int health, armor, damage, vision, attackSpeed, size;
     private Map map;
     private Vector location;
     private Entity target;
@@ -12,14 +12,15 @@ public class Enemy
     private int cooldown = 0;
     private int moveSpeed = 0;
     private ArrayList<Bird> birdsInRange = new ArrayList<>();
-    public Enemy(Map map, int health, int armor, Vector Location, int damage, int range, int attackSpeed, int moveSpeed, int size)
+    private int range = 5;
+    public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, int moveSpeed, int size)
     {
         this.map = map;
         this.health = health;
         this.armor = armor;
         this.location = Location;
         this.damage = damage;
-        this.range = range;
+        this.vision = vision;
         this.attackSpeed = attackSpeed;
         this.moveSpeed = moveSpeed;
         this.size = size;
@@ -48,9 +49,9 @@ public class Enemy
     {
         return damage;
     }
-    public int getRange()
+    public int getVision()
     {
-        return range;
+        return vision;
     }
     public int getAttackSpeed()
     {
@@ -66,7 +67,7 @@ public class Enemy
         cooldown--;
         updateTarget();
 
-        if(this.inRange(target))
+        if(this.canAttack(target))
         {
             if(cooldown <= 0)
             {
@@ -89,7 +90,8 @@ public class Enemy
         moveComponent = new Vector(xDistance / ((double)time), yDistance / ((double)time));
 
     }
-    public boolean inRange(Entity other){ return this.getCenter().distanceFrom(other.getCenter()) - (this.size + other.getSize()) <= range; }
+    public boolean inRange(Entity other){ return this.getCenter().distanceFrom(other.getCenter()) - (this.size + other.getSize()) <= vision; }
+    public boolean canAttack(Entity other) { return this.getCenter().distanceFrom(other.getCenter()) - (this.size + other.getSize()) <= range; }
     public void attack(Entity en)
     {
         en.takeDamage(damage);
