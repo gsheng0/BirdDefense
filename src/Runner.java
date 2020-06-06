@@ -39,7 +39,7 @@ public class Runner extends JPanel{
                 } 
                 else randomY = randomYRanges.getRandom();
                 if(randomSpawn == 50)
-                    map.getEnemies().add(new Enemy(100, 2, new Vector(randomX, randomY), 3, 3, 3, 3, 3));
+                    map.getEnemies().add(new Enemy(map,100, 2, new Vector(randomX, randomY), 3, 3, 3, 3, 3));
             }
         }, 0, 20);  
         frame.add(this);

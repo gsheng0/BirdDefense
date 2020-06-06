@@ -13,4 +13,12 @@ public class Map{
 
     public ArrayList<Enemy> getEnemies(){ return enemyList; }
     public ArrayList<Bird> getBirds() { return birdList; }
+    public void remove(Entity en){
+        if(en instanceof Nest){
+            //lose
+        }
+        else if(en instanceof Bird){
+            birdList.remove(en);
+        }
+    }
 }
