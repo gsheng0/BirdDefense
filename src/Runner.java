@@ -94,6 +94,7 @@ public class Runner extends JPanel{
 
             map.simulate();
             map.getNest().draw(g);
+            map.getProjectiles().forEach(projectile -> projectile.draw(g));
             map.getEnemies().forEach(enemy -> enemy.draw(g));
             map.getBirds().forEach(bird -> bird.draw(g));
             g.setColor(new Color(40, 26, 13).brighter().brighter().brighter());
@@ -114,7 +115,8 @@ public class Runner extends JPanel{
                 if (MouseComboListener.getInstance().selection == MouseComboListener.Selection.chicken)
                     g.drawImage(Util.CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
             }
-
+            for(Projectile proj : map.shouldRemove)
+                map.getProjectiles().remove(proj);
             repaint();
         }
         public void spawnEnemy(){

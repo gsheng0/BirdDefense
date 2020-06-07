@@ -28,7 +28,7 @@ public class Bird extends Entity
         this.maxHealth = health;
 
     }
-
+    public Enemy getTarget() { return target; }
     public int getDamage() { return damage; }
     public int getRange() { return range; }
     public int getAttackSpeed() { return attackSpeed; }
