@@ -179,18 +179,24 @@ public class Runner extends JPanel{
             g2d.drawRect(1225, 95, 125, 135);
             g2d.drawImage(Util.CHICKEN_RESIZE, 1050 + 20, 95 + 25, null);
             g2d.drawImage(Util.MASSIVE_CHICKEN_RESIZE, 1225, 95 + 5, null);
+            g.drawString("$100", 1050+(125/2)-5, 90);
+            g.drawString("$750", 1225+(125/2)-5, 90);
+
 
             g2d.drawRect(1020, 290, 360, 205);
             g2d.drawRect(1050, 325, 125, 135);
             g2d.drawRect(1225, 325, 125, 135);
             g2d.drawImage(Util.WOODPECKER_RESIZE, 1050 + 20, 325 + 25, null);
             g2d.drawImage(Util.CROW_RESIZE, 1225 + 20, 325 + 25, null);
+            g.drawString("$50", 1050+(125/2)-5, 320);
+            g.drawString("$200", 1225+(125/2)-5, 320);
+
+
 
             g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             g.setColor(Color.BLACK);
             g.drawString("Money: " + player.getMoney(), 1015, 25);
             g.drawString("Health: " + player.getNest().getHealth(), 1015, 45);
-
             if(MouseComboListener.getInstance().selection != MouseComboListener.Selection.none) {
                 if (MouseComboListener.getInstance().selection == MouseComboListener.Selection.chicken)
                     g.drawImage(Util.CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
