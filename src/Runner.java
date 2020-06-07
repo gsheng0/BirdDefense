@@ -81,10 +81,11 @@ public class Runner extends JPanel{
         
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
-            if((int)(Math.random() * 50) == 0)
+            if((int)(Math.random() * 40) == 0)
                 spawnEnemy();
 
-            map.simulate();
+
+
             Graphics2D g2d = (Graphics2D) g;
             Color color1 = new Color(120,241,255);
             Color color2 = color1.darker();
@@ -93,15 +94,20 @@ public class Runner extends JPanel{
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, 1000, 800);
 
-            g.drawImage(Util.NEST, (int)nest.getLocation().getX(), (int)nest.getLocation().getY(), null);
+            map.simulate();
+            map.getNest().draw(g);
             map.getEnemies().forEach(enemy -> enemy.draw(g));
             map.getBirds().forEach(bird -> bird.draw(g));
+            g.setColor(new Color(40, 26, 13).brighter().brighter());
+            g.fillRect(1000, 0, 400, 800);
+
+
 
             g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             g.setColor(Color.BLACK);
-            g.drawString("Money: " + player.getMoney(), 1050, 50);
-            g.drawString("Health: " + player.getNest().getHealth(), 1050, 150);
-            System.out.println(nest.getHealth());
+            g.drawString("Money: " + player.getMoney(), 1015, 25);
+            g.drawString("Health: " + player.getNest().getHealth(), 1015, 45);
+
             repaint();
         }
         public void spawnEnemy(){
