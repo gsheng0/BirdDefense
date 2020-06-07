@@ -1,4 +1,7 @@
 import javax.swing.*;
+import javax.swing.text.JTextComponent;
+import javax.swing.text.SimpleAttributeSet;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
@@ -9,7 +12,6 @@ public class Runner extends JPanel{
     CardLayout cardLayout = new CardLayout();
     JPanel menuPanel, mainPanel, endPanel;
     GamePanel gamePanel;
-    JButton startButton = new JButton("Start Game");
     Map map = new Map();
     Nest nest;
     Timer enemySpawnTimer;
@@ -20,14 +22,11 @@ public class Runner extends JPanel{
         MouseComboListener.getInstance().setMap(map);
         frame = new JFrame("Bird Game");
         MouseComboListener.getInstance().frame = frame;
-        menuPanel = new JPanel();
+        menuPanel = new MenuPanel();
         endPanel = new EndPanel();
         gamePanel = new GamePanel();
 
-        startButton.addActionListener(e -> {
-            cardLayout.show(mainPanel, "game");
-        });
-        menuPanel.add(startButton);
+        
         mainPanel = new JPanel(cardLayout);
         mainPanel.add(menuPanel, "menu");
         mainPanel.add(gamePanel, "game");
@@ -58,6 +57,45 @@ public class Runner extends JPanel{
             }
         }
         int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
+    }
+    class MenuPanel extends JPanel{
+        Color color1 = new Color(204, 153, 255);
+        Color color2 = new Color(193,240,240);
+        GradientPaint gp = new GradientPaint(0,0,color1,1400,800,color2);
+        JButton startButton = new JButton("Start Game");
+        JLabel startText = new JLabel("BIRD DEFENSE! Create birds and defend your nest!");
+        GridBagConstraints gbc = new GridBagConstraints();
+        GridBagConstraints gbc2 = new GridBagConstraints();
+
+        public MenuPanel(){
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.anchor = GridBagConstraints.CENTER;
+            gbc2.gridwidth = GridBagConstraints.REMAINDER;
+            gbc2.anchor = GridBagConstraints.SOUTH;
+            setLayout(new GridBagLayout());
+            gbc.insets = new Insets(-30,-30,-30,-30);
+            add(startText, gbc);
+            add(startButton, gbc2);
+            startButton.addActionListener(e -> {
+                gamePanel = new GamePanel();
+                map.clear();
+                cardLayout.show(mainPanel, "game");
+            });
+            startButton.setIcon(new ImageIcon(Util.BAT));
+            startButton.setOpaque(false);
+            startButton.setContentAreaFilled(false);
+            startButton.setBorderPainted(false);
+        }
+        public Dimension getPreferredSize() {
+            return new Dimension(1400, 800);
+        }
+        public void paintComponent(Graphics g){
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.setPaint(gp);
+            g2d.fillRect(0,0,1400,800);
+            g2d.drawImage(Util.BIRD_DEFENSE, 700-Util.BIRD_DEFENSE.getWidth()/2,300-Util.BIRD_DEFENSE.getHeight()/2,null);
+        }
     }
     class EndPanel extends JPanel{
         Color color1 = new Color(204, 153, 255);
