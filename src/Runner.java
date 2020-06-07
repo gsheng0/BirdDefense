@@ -112,7 +112,7 @@ public class Runner extends JPanel{
             g2d.drawRect(1020, 290, 360, 205);
             g2d.drawRect(1050, 325, 125, 135);
             g2d.drawRect(1225, 325, 125, 135);
-            g2d.drawImage(Util.CHICKEN_RESIZE, 1050 + 20, 325 + 25, null);
+            g2d.drawImage(Util.WOODPECKER_RESIZE, 1050 + 20, 325 + 25, null);
             g2d.drawImage(Util.MASSIVE_CHICKEN_RESIZE, 1225, 325 + 5, null);
 
             g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
@@ -126,6 +126,9 @@ public class Runner extends JPanel{
 
                 else if(MouseComboListener.getInstance().selection == MouseComboListener.Selection.massive_chicken){
                     g.drawImage(Util.MASSIVE_CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
+                }
+                else if(MouseComboListener.getInstance().selection == MouseComboListener.Selection.woodpecker){
+                    g.drawImage(Util.WOODPECKER, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
                 }
             }
             for(Projectile proj : map.shouldRemove)
@@ -161,6 +164,7 @@ public class Runner extends JPanel{
             chicken,
             none,
             massive_chicken,
+            woodpecker,
         }
         JFrame frame;
         public static MouseComboListener getInstance(){
@@ -179,14 +183,15 @@ public class Runner extends JPanel{
 
         @Override
         public void mousePressed(MouseEvent e) {
-            if(Util.withinBounds(e.getX(), 1050, 1175) && Util.withinBounds(e.getY(), 95, 230))
+            if(Util.withinBounds(new Vector(e.getPoint()), new Vector(1050, 95), new Vector(1175, 230)))
                 selection = Selection.chicken;
 
-            else if(Util.withinBounds(e.getX(), 1225, 1350) && Util.withinBounds(e.getY(), 95, 230))
+            else if(Util.withinBounds(new Vector(e.getPoint()), new Vector(1225, 95),new Vector(1350, 230)))
                 selection = Selection.massive_chicken;
 
+            else if(Util.withinBounds(new Vector(e.getPoint()), new Vector(1050, 325), new Vector(1175, 460)))
+                selection = Selection.woodpecker;
 
-            System.out.println(frame.getSize());
             //map.add(new Enemy(map ,100, 200, new Vector(e.getPoint()), 3, 150, 3, 3, 20));
         }
 
@@ -194,10 +199,13 @@ public class Runner extends JPanel{
         public void mouseReleased(MouseEvent e) {
             if(Util.withinBounds(e.getX(), 0, 1000) && Util.withinBounds(e.getY(), 0, 800))
             {
+                Vector buildLocation = new Vector(e.getPoint().x - 25, e.getPoint().y - 25);
                 if(selection == Selection.chicken)
-                    Chicken.Factory.build(new Vector(e.getPoint().x - 25, e.getPoint().y - 25));
+                    Chicken.Factory.build(buildLocation);
                 else if(selection == Selection.massive_chicken)
-                    MassiveChicken.Factory.build(new Vector(e.getPoint().x - 25, e.getPoint().y - 25));
+                    MassiveChicken.Factory.build(buildLocation);
+                else if(selection == Selection.woodpecker)
+                    Woodpecker.Factory.build(buildLocation);
             }
             selection = Selection.none;
         }

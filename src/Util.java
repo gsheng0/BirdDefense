@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 public class Util {
     public static GraphicsConfiguration config;
     public static BufferedImage CHICKEN, BAT, NEST, CHICKEN_RESIZE, MASSIVE_BAT, EGG, MASSIVE_CHICKEN, MASSIVE_EGG,
-            MASSIVE_CHICKEN_RESIZE, WOODPECKER;
+            MASSIVE_CHICKEN_RESIZE, WOODPECKER, WOODPECKER_RESIZE;
     static{
         config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
         CHICKEN = getBufferedImage("chicken.png");
@@ -20,6 +20,7 @@ public class Util {
         MASSIVE_EGG = resize(EGG, 104, 104);
         MASSIVE_CHICKEN_RESIZE = resize(CHICKEN, 125, 125);
         WOODPECKER = getBufferedImage("woodpecker.png");
+        WOODPECKER_RESIZE = resize(WOODPECKER, 85, 85);
     }
     public static BufferedImage getBufferedImage(String path){
         BufferedImage image = null;
@@ -56,7 +57,10 @@ public class Util {
 
         return dimg;
     }
-    public static boolean withinBounds(int num, int min, int max){
+    public static boolean withinBounds(double num, double min, double max){
         return num >= min && num <= max;
+    }
+    public static boolean withinBounds(Vector vec, Vector topLeft, Vector bottomRight){
+        return withinBounds(vec.x, topLeft.x, bottomRight.x) && withinBounds(vec.y, topLeft.y, bottomRight.y);
     }
 }
