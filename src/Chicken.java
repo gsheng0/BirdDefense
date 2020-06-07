@@ -1,6 +1,6 @@
 public class Chicken extends Bird {
     public Chicken(Map map, Vector location){
-        super(map, 100, 2, location, 15, 3, 150, 25, Util.CHICKEN);
+        super(map, 100, 2, location, 15, 33, 150, 25, Util.CHICKEN);
     }
     public static class Factory{
         private static Map map;

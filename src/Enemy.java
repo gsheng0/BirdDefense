@@ -18,12 +18,9 @@ public class Enemy
     private int range = 5;
     private int maxHealth;
     private double angle = 0;
-    private static BufferedImage bat;
-    static{
-        bat = Util.getBufferedImage("bat.png");
+    private BufferedImage image;
 
-    }
-    public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, double moveSpeed, int size)
+    public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, double moveSpeed, int size, BufferedImage image)
     {
         this.map = map;
         this.health = health;
@@ -36,12 +33,13 @@ public class Enemy
         this.size = size;
         this.maxHealth = health;
         this.target = map.getNest();
+        this.image = image;
     }
     public Vector getCenter(){
         return new Vector(location.x + size, location.y + size);
     }
     public void draw(Graphics g){
-        BufferedImage rotated = Util.rotateDegrees(bat, -1 * (int)angle + 90);
+        BufferedImage rotated = Util.rotateDegrees(image, -1 * (int)angle + 90);
         g.drawImage(rotated, (int)location.x, (int)location.y, null);
         //g.setColor(Color.BLACK);
         //g.drawOval((int)this.getCenter().x - vision, (int)this.getCenter().y - vision, vision * 2, vision * 2);

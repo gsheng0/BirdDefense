@@ -68,6 +68,7 @@ public class Runner extends JPanel{
             nest = new Nest(map, new Vector(350, 250));
             map.setNest(nest);
             Chicken.Factory.setMap(map);
+            Bat.Factory.setMap(map);
             for(int i = 0; i < 7; i++)
                 Chicken.Factory.build(Vector.randomVector());
         }
@@ -107,8 +108,7 @@ public class Runner extends JPanel{
                 randomX = randomX < 100 ? 0 : 1000;
             }
             else randomY = randomYRanges.getRandom();
-            map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 25, 0.25, 8));
-
+            Bat.Factory.build(new Vector(randomX, randomY));
         }
     }
     public static class MouseComboListener implements MouseMotionListener, MouseListener{
