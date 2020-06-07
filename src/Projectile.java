@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,12 +31,15 @@ public class Projectile {
         return new Vector(location.x + radius, location.y + radius);
     }
     public boolean inContact(Enemy en){
-        return en.getCenter().distanceFrom(this.getCenter()) - (en.getSize()) <= radius;
+        return en.getCenter().distanceFrom(this.getCenter()) - (en.getSize() + this.radius) <= radius;
     }
     public void exist(){
-        List<Enemy> inContact = map.getEnemies().stream().filter(this::inContact).collect(Collectors.toList());
-
-        if(inContact.size() < 1)
+        ArrayList<Enemy> inContact = new ArrayList<>();
+        for(Enemy en : map.getEnemies()){
+            if(this.inContact(en))
+                inContact.add(en);
+        }
+        if(inContact.size() == 0)
         {
             this.location.x += stepVector.x;
             this.location.y += stepVector.y;
