@@ -1,13 +1,4 @@
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import sun.audio.AudioPlayer;
-import sun.audio.AudioStream;
-
-import java.applet.AudioClip;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.awt.*;
 public class Bird extends Entity

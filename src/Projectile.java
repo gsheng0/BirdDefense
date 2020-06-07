@@ -1,8 +1,6 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class Projectile {
     private Vector location;
