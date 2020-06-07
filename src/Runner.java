@@ -1,3 +1,5 @@
+import javafx.scene.transform.Rotate;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -18,6 +20,7 @@ public class Runner extends JPanel{
     Map map = new Map();
     Nest nest;
     Timer enemySpawnTimer;
+    int counter = 0;
 
     public Runner() {
         MouseComboListener.getInstance().setMap(map);
@@ -78,7 +81,7 @@ public class Runner extends JPanel{
                 e.printStackTrace();
             }
             map.setNest(nest);
-            createBirds();
+            //createBirds();
             enemySpawnTimer = new Timer();
             enemySpawnTimer.schedule(new TimerTask(){
                 @Override
@@ -111,6 +114,7 @@ public class Runner extends JPanel{
         
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
+
             map.simulate();
             Graphics2D g2d = (Graphics2D) g;
             Color color1 = new Color(120,241,255);
@@ -125,6 +129,8 @@ public class Runner extends JPanel{
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())
                 g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
+          
+
         }
     }
     public static class MouseComboListener implements MouseMotionListener, MouseListener{
@@ -143,12 +149,12 @@ public class Runner extends JPanel{
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            map.add(new Enemy(map ,100, 2, new Vector(e.getPoint()), 3, 150, 3, 3, 8));
+
         }
 
         @Override
         public void mousePressed(MouseEvent e) {
-
+            map.add(new Enemy(map ,100, 200, new Vector(e.getPoint()), 3, 150, 3, 3, 20));
         }
 
         @Override
