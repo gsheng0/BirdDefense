@@ -20,6 +20,7 @@ public class Runner extends JPanel{
     Timer enemySpawnTimer;
 
     public Runner() {
+        MouseComboListener.getInstance().setMap(map);
         frame = new JFrame("Bird Game");
         menuPanel = new JPanel();
         gamePanel = new GamePanel();
@@ -32,9 +33,12 @@ public class Runner extends JPanel{
         mainPanel.add(menuPanel, "menu");
         mainPanel.add(gamePanel, "game");
         frame.add(mainPanel);
+        frame.addMouseListener(MouseComboListener.getInstance());
+        frame.addMouseMotionListener(MouseComboListener.getInstance());
         frame.setSize(1000, 800);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
     }
     public void createBirds()
     {
@@ -94,10 +98,10 @@ public class Runner extends JPanel{
                     if(randomX < 100 || randomX > 900){
                         randomY = (int)(Math.random() * frame.getHeight());
                         randomX = randomX < 100 ? 0 : frame.getWidth();
-                    } 
+                    }
                     else randomY = randomYRanges.getRandom();
-                    if(randomSpawn == 50)
-                        map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 8));
+                    if(randomSpawn == 50 && map.getEnemies().size() < 1);
+                        //map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 8));
                 }
             }, 0, 20);  
         }
@@ -117,12 +121,59 @@ public class Runner extends JPanel{
             g2d.fillRect(0, 0, 1000, 800);
             g.drawImage(nestImage, (int)nest.getLocation().getX(), (int)nest.getLocation().getY(), null);
             g.setColor(Color.RED);
-            for(Enemy enemy : map.getEnemies()){
-                g.drawImage(bat, (int)enemy.getLocation().x, (int)enemy.getLocation().y, null);
-            }
+            map.getEnemies().stream().forEach(enemy -> enemy.draw(g));
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())
                 g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
+        }
+    }
+    public static class MouseComboListener implements MouseMotionListener, MouseListener{
+        private Vector center = new Vector(500, 400);
+        private static MouseComboListener instance;
+        private MouseComboListener(){ }
+        private Map map;
+        public static MouseComboListener getInstance(){
+            if(instance == null)
+                instance = new MouseComboListener();
+            return instance;
+        }
+        public void setMap(Map map){
+            this.map = map;
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            map.add(new Enemy(map ,100, 2, new Vector(e.getPoint()), 3, 150, 3, 3, 8));
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+
         }
     }
 }

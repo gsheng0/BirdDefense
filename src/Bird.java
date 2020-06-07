@@ -23,10 +23,8 @@ public class Bird extends Entity
         g.fillOval((int)getLocation().getX(), (int)getLocation().getY(), getSize()*2, getSize()*2);
         g.setColor(new Color(255 - ((getHealth()/100)*255), (getHealth()/100)*255, 0));
         g.fillRect((int)getLocation().getX(), (int)getLocation().getY()-10, 25, 10);
-        System.out.println("BH: "+getHealth());
     }
     public void attack(Enemy en){
-        System.out.println("Attacked");
         en.takeDamage(this.damage);
     }
     public void updateEnemiesInRange(){
@@ -39,7 +37,6 @@ public class Bird extends Entity
     }
     public boolean inRange(Enemy en){ return this.getCenter().distanceFrom(en.getCenter()) - (this.size + en.getSize()) <= range; }
     public void updateTarget(){
-        System.out.println(enemiesInRange.size());
         updateEnemiesInRange();
         if(enemiesInRange.size() < 1) {
             target = null;

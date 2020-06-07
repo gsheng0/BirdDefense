@@ -1,4 +1,7 @@
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.net.URL;
 import java.util.*;
 
 public class Enemy
@@ -13,6 +16,13 @@ public class Enemy
     private int moveSpeed = 0;
     private ArrayList<Bird> birdsInVision = new ArrayList<>();
     private int range = 5;
+    private int maxHealth;
+    private double angle = 0;
+    private static BufferedImage bat;
+    static{
+        bat = Util.getBufferedImage("bat.png");
+
+    }
     public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, int moveSpeed, int size)
     {
         this.map = map;
@@ -24,13 +34,14 @@ public class Enemy
         this.attackSpeed = attackSpeed;
         this.moveSpeed = moveSpeed;
         this.size = size;
+        this.maxHealth = health;
     }
     public Vector getCenter(){
         return new Vector(location.x + size, location.y + size);
     }
     public void draw(Graphics g){
-        g.setColor(Color.CYAN);
-        g.fillOval((int)location.x, (int)location.y, size * 2, size * 2);
+        BufferedImage rotated = Util.rotateDegrees(bat, (int)angle);
+        g.drawImage(rotated, (int)location.x, (int)location.y, null);
     }
     public int getMoveSpeed() { return moveSpeed; }
     public int getHealth()
@@ -80,7 +91,8 @@ public class Enemy
             this.location.y += moveComponent.y;
 
         }
-
+        angle = this.getCenter().getAngleTo(target.getCenter());
+        System.out.println(angle);
     }
     public void setMoveComponent(Vector other){
         double distance = this.getCenter().distanceFrom(other);
