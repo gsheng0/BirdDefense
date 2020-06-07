@@ -25,6 +25,12 @@ public class Map{
     public void add(Projectile proj){
         projectiles.add(proj);
     }
+    public void clear(){
+        birds = new ArrayList<>();
+        enemies = new ArrayList<>();
+        projectiles = new ArrayList<>();
+        shouldRemove = new ArrayList<>();
+    }
     public Nest getNest() { return nest; }
     public ArrayList<Enemy> getEnemies(){ return enemies; }
     public ArrayList<Bird> getBirds() { return birds; }
