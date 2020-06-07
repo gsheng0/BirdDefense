@@ -17,7 +17,8 @@ public class Enemy
     private int maxHealth;
     private double angle = 0;
     private BufferedImage image;
-
+    private boolean angleChanged = false;
+    private BufferedImage current = image;
     public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, double moveSpeed, int size, BufferedImage image, int money)
     {
         this.map = map;
@@ -33,15 +34,21 @@ public class Enemy
         this.target = map.getNest();
         this.image = image;
         this.money = money;
+        this.angle = this.getCenter().getAngleTo(target.getCenter());
+        current = Util.rotateDegrees(image, -1 * (int) angle + 90);
     }
     public Vector getCenter(){
         return new Vector(location.x + size, location.y + size);
     }
     public void draw(Graphics g){
-        BufferedImage rotated = Util.rotateDegrees(image, -1 * (int)angle + 90);
-        g.drawImage(rotated, (int)location.x, (int)location.y, null);
+        if(angleChanged) {
+            current = Util.rotateDegrees(image, -1 * (int) angle + 90);
+            g.drawImage(current, (int) location.x, (int) location.y, null);
+        }
+        g.drawImage(current, (int) location.x, (int) location.y, null);
         //g.setColor(Color.BLACK);
         //g.drawOval((int)this.getCenter().x - vision, (int)this.getCenter().y - vision, vision * 2, vision * 2);
+
     }
     public double getMoveSpeed() { return moveSpeed; }
     public int getHealth()
@@ -75,6 +82,7 @@ public class Enemy
     }
     public void exist() //called every frame
     {
+        angleChanged = false;
         cooldown--;
         updateTarget();
 
@@ -91,7 +99,7 @@ public class Enemy
             this.location.y += moveComponent.y;
 
         }
-        angle = this.getCenter().getAngleTo(target.getCenter());
+
     }
     public void setMoveComponent(Vector other){
         double distance = this.getCenter().distanceFrom(other);
@@ -120,6 +128,7 @@ public class Enemy
     }
     public void updateTarget()
     {
+        Entity prev = target;
         updateBirdsInVision();
         if(birdsInVision.size() < 1) {
             target = this.getMap().getNest();
@@ -133,6 +142,10 @@ public class Enemy
                     minDistance = distance;
                 }
             }
+        }
+        if(target != prev) {
+            angle = this.getCenter().getAngleTo(target.getCenter());
+            angleChanged = true;
         }
         setMoveComponent(target.getCenter());
     }

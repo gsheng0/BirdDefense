@@ -4,7 +4,7 @@ import java.util.ArrayList;
 public class MassiveEgg extends Projectile{
     private int counter = 0;
     public MassiveEgg(Map map, Vector location, Vector stepVector){
-        super(map, location, stepVector, 150, 72, Util.MASSIVE_EGG);
+        super(map, location, stepVector, 150, 55, Util.MASSIVE_EGG);
     }
 
     @Override

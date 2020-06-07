@@ -78,7 +78,8 @@ public class Runner extends JPanel{
         }
         
         public void paintComponent(Graphics g) {
-            super.paintComponent(g);
+            g.setColor(Color.WHITE);
+            g.fillRect(0, 0, 1000, 800);
             if(nest.getHealth() <= 0)
                 cardLayout.show(mainPanel, "end");
             if((int)(Math.random() * 40) == 0)

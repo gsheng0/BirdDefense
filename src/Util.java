@@ -26,7 +26,10 @@ public class Util {
         try{
             image = ImageIO.read(Util.class.getResource(path));
         }
-        catch(Exception e){}
+        catch(Exception e){
+            System.out.println(e);
+        }
+
         return image;
     }
     public static BufferedImage rotate(BufferedImage image, double angle){
