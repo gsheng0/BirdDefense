@@ -28,7 +28,7 @@ public class Enemy
         this.damage = damage;
         this.vision = vision;
         this.attackSpeed = attackSpeed;
-        this.moveSpeed = moveSpeed;
+        this.moveSpeed = moveSpeed / 10.0;
         this.size = size;
         this.maxHealth = health;
         this.target = map.getNest();

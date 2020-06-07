@@ -1,6 +1,6 @@
 public class Crow extends Bird{
     public Crow(Map map, Vector location){
-        super(map, 150, 5, location, 15, 66, 10, 115, Util.CROW);
+        super(map, 150, 5, location, 15, 66, 100, 115, Util.CROW);
     }
 
     @Override

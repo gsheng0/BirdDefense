@@ -16,7 +16,7 @@ public class Bird extends Entity
         super(map, health, armor, location, size);
         this.damage = damage;
         this.range = range;
-        this.attackSpeed = attackSpeed;
+        this.attackSpeed = attackSpeed * 10;
         this.image = image;
         this.maxHealth = health;
         current = image;

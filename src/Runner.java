@@ -153,6 +153,8 @@ public class Runner extends JPanel{
             g.drawString("Money: " + player.getMoney(), 1015, 25);
             g.drawString("Health: " + player.getNest().getHealth(), 1015, 45);
 
+            g.drawString("$100", 1050, 75);
+
             if(MouseComboListener.getInstance().selection != MouseComboListener.Selection.none) {
                 if (MouseComboListener.getInstance().selection == MouseComboListener.Selection.chicken)
                     g.drawImage(Util.CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
