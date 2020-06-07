@@ -141,7 +141,7 @@ public class Enemy
     public boolean isAlive() { return alive; }
     public void takeDamage(int damageGiven)
     {
-        health -= (damageGiven-armor);
+        health -= Math.max((damageGiven-armor), 1);
         if(health <= 0) {
             alive = false;
             map.remove(this);

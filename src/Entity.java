@@ -20,7 +20,7 @@ public class Entity {
     public Vector getLocation() { return location; }
     public boolean isAlive() { return alive; }
     public void takeDamage(int damage){
-        int newDamage = damage - this.armor;
+        int newDamage = Math.max(damage - this.armor, 1);
         this.health -= newDamage;
         if(this.health <= 0) {
             map.remove(this);

@@ -21,6 +21,7 @@ public class Runner extends JPanel{
     Nest nest;
     Timer enemySpawnTimer;
     int counter = 0;
+    Player player;
 
     public Runner() {
         MouseComboListener.getInstance().setMap(map);
@@ -28,6 +29,7 @@ public class Runner extends JPanel{
         MouseComboListener.getInstance().frame = frame;
         menuPanel = new JPanel();
         gamePanel = new GamePanel();
+
         startButton.addActionListener(e -> {
             cardLayout.show(mainPanel, "game");
 
@@ -69,6 +71,7 @@ public class Runner extends JPanel{
             map.setNest(nest);
             Chicken.Factory.setMap(map);
             Bat.Factory.setMap(map);
+            player = new Player(map, nest);
             for(int i = 0; i < 7; i++)
                 Chicken.Factory.build(Vector.randomVector());
         }
@@ -89,10 +92,16 @@ public class Runner extends JPanel{
                 0, 0, color1, 0, 800, color2);
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, 1000, 800);
+
             g.drawImage(Util.NEST, (int)nest.getLocation().getX(), (int)nest.getLocation().getY(), null);
             map.getEnemies().forEach(enemy -> enemy.draw(g));
             map.getBirds().forEach(bird -> bird.draw(g));
 
+            g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+            g.setColor(Color.BLACK);
+            g.drawString("Money: " + player.getMoney(), 1050, 50);
+            g.drawString("Health: " + player.getNest().getHealth(), 1050, 150);
+            System.out.println(nest.getHealth());
             repaint();
         }
         public void spawnEnemy(){
