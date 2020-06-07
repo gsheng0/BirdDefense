@@ -7,7 +7,7 @@ import java.util.Timer;
 public class Runner extends JPanel{
     JFrame frame;
     CardLayout cardLayout = new CardLayout();
-    JPanel menuPanel, mainPanel;
+    JPanel menuPanel, mainPanel, endPanel;
     GamePanel gamePanel;
     JButton startButton = new JButton("Start Game");
     Map map = new Map();
@@ -21,16 +21,19 @@ public class Runner extends JPanel{
         frame = new JFrame("Bird Game");
         MouseComboListener.getInstance().frame = frame;
         menuPanel = new JPanel();
+        endPanel = new JPanel();
         gamePanel = new GamePanel();
 
         startButton.addActionListener(e -> {
             cardLayout.show(mainPanel, "game");
-
         });
         menuPanel.add(startButton);
+        endPanel.add(new JLabel("End Game"));
         mainPanel = new JPanel(cardLayout);
         mainPanel.add(menuPanel, "menu");
         mainPanel.add(gamePanel, "game");
+        mainPanel.add(endPanel, "end");
+
         frame.add(mainPanel);
         frame.addMouseListener(MouseComboListener.getInstance());
         frame.addMouseMotionListener(MouseComboListener.getInstance());
@@ -75,6 +78,8 @@ public class Runner extends JPanel{
         
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
+            if(nest.getHealth() <= 0)
+                cardLayout.show(mainPanel, "end");
             if((int)(Math.random() * 40) == 0)
                 spawnEnemy();
 
