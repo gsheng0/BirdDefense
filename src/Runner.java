@@ -46,7 +46,7 @@ public class Runner extends JPanel{
     public void createBirds()
     {
         for(int x=0;x<7;x++)
-            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,33,150,5));
+            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,33,150,25));
     }
     public static void main(String[] args) {
         new Runner();
@@ -81,32 +81,7 @@ public class Runner extends JPanel{
                 e.printStackTrace();
             }
             map.setNest(nest);
-            //createBirds();
-            enemySpawnTimer = new Timer();
-            enemySpawnTimer.schedule(new TimerTask(){
-                @Override
-                public void run() {
-                    creatingRandomEnemies();
-                    repaint();
-                }
-                public void creatingRandomEnemies(){
-                    int randomSpawn = (int)((Math.random()*100)+1);
-                    RandomInRanges randomXRanges = new RandomInRanges(51,949);
-                    RandomInRanges randomYRanges = new RandomInRanges(0,0);
-                    randomYRanges.addRange(800,800);
-                    randomXRanges.addRange(0, 100);
-                    randomXRanges.addRange(900, 1000);
-                    int randomX = randomXRanges.getRandom();
-                    int randomY = 0;
-                    if(randomX < 100 || randomX > 900){
-                        randomY = (int)(Math.random() * frame.getHeight());
-                        randomX = randomX < 100 ? 0 : frame.getWidth();
-                    }
-                    else randomY = randomYRanges.getRandom();
-                    if(randomSpawn == 50 && map.getEnemies().size() < 1);
-                        //map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 3, 8));
-                }
-            }, 0, 20);  
+            createBirds();
         }
         public Dimension getPreferredSize() {
             return new Dimension(1000, 800);
@@ -114,6 +89,8 @@ public class Runner extends JPanel{
         
         public void paintComponent(Graphics g) {
             super.paintComponent(g);
+            if((int)(Math.random() * 50) == 0)
+                spawnEnemy();
 
             map.simulate();
             Graphics2D g2d = (Graphics2D) g;
@@ -124,12 +101,25 @@ public class Runner extends JPanel{
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, 1000, 800);
             g.drawImage(nestImage, (int)nest.getLocation().getX(), (int)nest.getLocation().getY(), null);
-            g.setColor(Color.RED);
             map.getEnemies().stream().forEach(enemy -> enemy.draw(g));
-            g.setColor(Color.CYAN);
-            for(Bird bird: map.getBirds())
-                g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
+            map.getBirds().stream().forEach(bird -> bird.draw(g));
 
+            repaint();
+        }
+        public void spawnEnemy(){
+            RandomInRanges randomXRanges = new RandomInRanges(51,949);
+            RandomInRanges randomYRanges = new RandomInRanges(0,0);
+            randomYRanges.addRange(800,800);
+            randomXRanges.addRange(0, 100);
+            randomXRanges.addRange(900, 1000);
+            int randomX = randomXRanges.getRandom();
+            int randomY = 0;
+            if(randomX < 100 || randomX > 900){
+                randomY = (int)(Math.random() * frame.getHeight());
+                randomX = randomX < 100 ? 0 : frame.getWidth();
+            }
+            else randomY = randomYRanges.getRandom();
+            map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 0.25, 8));
 
         }
     }
@@ -154,7 +144,7 @@ public class Runner extends JPanel{
 
         @Override
         public void mousePressed(MouseEvent e) {
-            map.add(new Enemy(map ,100, 200, new Vector(e.getPoint()), 3, 150, 3, 3, 20));
+            //map.add(new Enemy(map ,100, 200, new Vector(e.getPoint()), 3, 150, 3, 3, 20));
         }
 
         @Override

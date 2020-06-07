@@ -1,3 +1,4 @@
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.awt.*;
 public class Bird extends Entity
@@ -6,6 +7,11 @@ public class Bird extends Entity
     private Enemy target;
     private ArrayList<Enemy> enemiesInRange = new ArrayList<>();
     private int cooldown;
+    private double angle = 0.0;
+    private static BufferedImage chicken;
+    static{
+        chicken = Util.getBufferedImage("chicken.png");
+    }
     public Bird(Map map, int health, int armor, Vector location, int size, int damage, int range, int attackSpeed)
     {
         super(map, health, armor, location, size);
@@ -19,10 +25,10 @@ public class Bird extends Entity
     public int getAttackSpeed() { return attackSpeed; }
     public void draw(Graphics g)
     {
-        g.setColor(Color.CYAN);
-        g.fillOval((int)getLocation().getX(), (int)getLocation().getY(), getSize()*2, getSize()*2);
-        g.setColor(new Color(255 - ((getHealth()/100)*255), (getHealth()/100)*255, 0));
-        g.fillRect((int)getLocation().getX(), (int)getLocation().getY()-10, 25, 10);
+        BufferedImage rotated = Util.rotateDegrees(chicken, -1 * (int)angle + 90);
+        g.drawImage(rotated, (int)this.getLocation().x, (int)this.getLocation().y, null);
+        //g.setColor(Color.BLACK);
+        //g.drawOval((int)this.getCenter().x - range, (int)(this.getCenter().y - range), range * 2, range * 2);
     }
     public void attack(Enemy en){
         en.takeDamage(this.damage);
@@ -61,6 +67,10 @@ public class Bird extends Entity
             }
         }
         else cooldown--;
+
+        if(target != null)
+            angle = this.getCenter().getAngleTo(target.getCenter());
+
     }
 
 }

@@ -13,17 +13,17 @@ public class Enemy
     private Entity target;
     private Vector moveComponent;
     private int cooldown = 0;
-    private int moveSpeed = 0;
+    private double moveSpeed = 0;
     private ArrayList<Bird> birdsInVision = new ArrayList<>();
     private int range = 5;
     private int maxHealth;
     private double angle = 0;
     private static BufferedImage bat;
     static{
-        bat = Util.getBufferedImage("chicken.png");
+        bat = Util.getBufferedImage("bat.png");
 
     }
-    public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, int moveSpeed, int size)
+    public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, double moveSpeed, int size)
     {
         this.map = map;
         this.health = health;
@@ -43,10 +43,10 @@ public class Enemy
     public void draw(Graphics g){
         BufferedImage rotated = Util.rotateDegrees(bat, -1 * (int)angle + 90);
         g.drawImage(rotated, (int)location.x, (int)location.y, null);
-        g.setColor(Color.BLACK);
-        g.drawOval((int)this.getCenter().x - vision, (int)this.getCenter().y - vision, vision * 2, vision * 2);
+        //g.setColor(Color.BLACK);
+        //g.drawOval((int)this.getCenter().x - vision, (int)this.getCenter().y - vision, vision * 2, vision * 2);
     }
-    public int getMoveSpeed() { return moveSpeed; }
+    public double getMoveSpeed() { return moveSpeed; }
     public int getHealth()
     {
         return health;
@@ -95,7 +95,6 @@ public class Enemy
 
         }
         angle = this.getCenter().getAngleTo(target.getCenter());
-        System.out.println(angle);
     }
     public void setMoveComponent(Vector other){
         double distance = this.getCenter().distanceFrom(other);
