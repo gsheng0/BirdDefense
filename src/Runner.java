@@ -71,9 +71,9 @@ public class Runner extends JPanel{
             map.setNest(nest);
             Chicken.Factory.setMap(map);
             Bat.Factory.setMap(map);
+            MassiveBat.Factory.setMap(map);
             player = new Player(map, nest);
-            for(int i = 0; i < 7; i++)
-                Chicken.Factory.build(Vector.randomVector());
+            MassiveBat.Factory.build(new Vector(0, 0));
         }
         public Dimension getPreferredSize() {
             return new Dimension(1000, 800);
@@ -83,8 +83,6 @@ public class Runner extends JPanel{
             super.paintComponent(g);
             if((int)(Math.random() * 40) == 0)
                 spawnEnemy();
-
-
 
             Graphics2D g2d = (Graphics2D) g;
             Color color1 = new Color(120,241,255);
@@ -98,15 +96,24 @@ public class Runner extends JPanel{
             map.getNest().draw(g);
             map.getEnemies().forEach(enemy -> enemy.draw(g));
             map.getBirds().forEach(bird -> bird.draw(g));
-            g.setColor(new Color(40, 26, 13).brighter().brighter());
+            g.setColor(new Color(40, 26, 13).brighter().brighter().brighter());
             g.fillRect(1000, 0, 400, 800);
-
-
+            g2d.setStroke(new BasicStroke(2));
+            g2d.setColor(Color.BLACK);
+            g2d.drawRect(1020, 60, 360, 205);
+            g2d.drawRect(1050, 95, 125, 135);
+            g2d.drawRect(1225, 95, 125, 135);
+            g2d.drawImage(Util.CHICKEN_RESIZE, 1050 + 20, 95 + 25, null);
 
             g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             g.setColor(Color.BLACK);
             g.drawString("Money: " + player.getMoney(), 1015, 25);
             g.drawString("Health: " + player.getNest().getHealth(), 1015, 45);
+
+            if(MouseComboListener.getInstance().selection != MouseComboListener.Selection.none) {
+                if (MouseComboListener.getInstance().selection == MouseComboListener.Selection.chicken)
+                    g.drawImage(Util.CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
+            }
 
             repaint();
         }
@@ -124,6 +131,8 @@ public class Runner extends JPanel{
             }
             else randomY = randomYRanges.getRandom();
             Bat.Factory.build(new Vector(randomX, randomY));
+            if((int)(Math.random() * 1000) == 0)
+                MassiveBat.Factory.build(new Vector(randomX, randomY));
         }
     }
     public static class MouseComboListener implements MouseMotionListener, MouseListener{
@@ -131,6 +140,12 @@ public class Runner extends JPanel{
         private static MouseComboListener instance;
         private MouseComboListener(){ }
         private Map map;
+        Vector location;
+        Selection selection;
+        enum Selection{
+            chicken,
+            none,
+        }
         JFrame frame;
         public static MouseComboListener getInstance(){
             if(instance == null)
@@ -148,13 +163,24 @@ public class Runner extends JPanel{
 
         @Override
         public void mousePressed(MouseEvent e) {
+            if(Util.withinBounds(e.getX(), 1050, 1175) && Util.withinBounds(e.getY(), 95, 230))
+                selection = Selection.chicken;
+
+
+
             System.out.println(frame.getSize());
             //map.add(new Enemy(map ,100, 200, new Vector(e.getPoint()), 3, 150, 3, 3, 20));
         }
 
         @Override
         public void mouseReleased(MouseEvent e) {
+            if(Util.withinBounds(e.getX(), 0, 1000) && Util.withinBounds(e.getY(), 0, 800))
+            {
+                if(selection == Selection.chicken)
+                    Chicken.Factory.build(new Vector(e.getPoint().x - 25, e.getPoint().y - 25));
 
+            }
+            selection = Selection.none;
         }
 
         @Override
@@ -169,12 +195,12 @@ public class Runner extends JPanel{
 
         @Override
         public void mouseDragged(MouseEvent e) {
-
+            location = new Vector(e.getPoint());
         }
 
         @Override
         public void mouseMoved(MouseEvent e) {
-
+            location = new Vector(e.getPoint());
         }
     }
 }
