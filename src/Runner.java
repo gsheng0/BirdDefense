@@ -72,6 +72,7 @@ public class Runner extends JPanel{
             Chicken.Factory.setMap(map);
             Bat.Factory.setMap(map);
             MassiveBat.Factory.setMap(map);
+            MassiveChicken.Factory.setMap(map);
             player = new Player(map, nest);
             MassiveBat.Factory.build(new Vector(0, 0));
         }
@@ -105,6 +106,7 @@ public class Runner extends JPanel{
             g2d.drawRect(1050, 95, 125, 135);
             g2d.drawRect(1225, 95, 125, 135);
             g2d.drawImage(Util.CHICKEN_RESIZE, 1050 + 20, 95 + 25, null);
+            g2d.drawImage(Util.MASSIVE_CHICKEN_RESIZE, 1225, 95 + 5, null);
 
             g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             g.setColor(Color.BLACK);
@@ -114,6 +116,10 @@ public class Runner extends JPanel{
             if(MouseComboListener.getInstance().selection != MouseComboListener.Selection.none) {
                 if (MouseComboListener.getInstance().selection == MouseComboListener.Selection.chicken)
                     g.drawImage(Util.CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
+
+                else if(MouseComboListener.getInstance().selection == MouseComboListener.Selection.massive_chicken){
+                    g.drawImage(Util.MASSIVE_CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
+                }
             }
             for(Projectile proj : map.shouldRemove)
                 map.getProjectiles().remove(proj);
@@ -147,6 +153,7 @@ public class Runner extends JPanel{
         enum Selection{
             chicken,
             none,
+            massive_chicken,
         }
         JFrame frame;
         public static MouseComboListener getInstance(){
@@ -168,6 +175,8 @@ public class Runner extends JPanel{
             if(Util.withinBounds(e.getX(), 1050, 1175) && Util.withinBounds(e.getY(), 95, 230))
                 selection = Selection.chicken;
 
+            else if(Util.withinBounds(e.getX(), 1225, 1350) && Util.withinBounds(e.getY(), 95, 230))
+                selection = Selection.massive_chicken;
 
 
             System.out.println(frame.getSize());
@@ -180,7 +189,8 @@ public class Runner extends JPanel{
             {
                 if(selection == Selection.chicken)
                     Chicken.Factory.build(new Vector(e.getPoint().x - 25, e.getPoint().y - 25));
-
+                else if(selection == Selection.massive_chicken)
+                    MassiveChicken.Factory.build(new Vector(e.getPoint().x - 25, e.getPoint().y - 25));
             }
             selection = Selection.none;
         }
