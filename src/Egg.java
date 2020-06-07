@@ -3,7 +3,7 @@ import java.awt.*;
 public class Egg extends Projectile{
     private int counter = 0;
     public Egg(Map map, Vector location, Vector stepVector){
-        super(map, location, stepVector, 132, 18, Util.EGG);
+        super(map, location, stepVector, 33, 18, Util.EGG);
     }
 
     @Override

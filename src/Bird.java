@@ -19,6 +19,7 @@ public class Bird extends Entity
         this.attackSpeed = attackSpeed;
         this.image = image;
         this.maxHealth = health;
+        current = image;
 
     }
     public Enemy getTarget() { return target; }
