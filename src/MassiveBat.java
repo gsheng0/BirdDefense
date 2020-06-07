@@ -1,6 +1,8 @@
+import java.awt.*;
+
 public class MassiveBat extends Enemy{
     public MassiveBat(Map map, Vector location){
-        super(map, 2500, 4, location, 99, 250, 250, 0.12, 40, Util.MASSIVE_BAT);
+        super(map, 2500, 20, location, 99, 250, 250, 0.12, 40, Util.MASSIVE_BAT, 100);
     }
 
     @Override
@@ -11,6 +13,17 @@ public class MassiveBat extends Enemy{
             for(int i = 0; i < 15; i++)
                 Bat.Factory.build(new Vector(this.getCenter().x + (int)(Math.random() * 41) - 20, this.getCenter().x + (int)(Math.random() * 41) - 20));
         }
+    }
+
+    @Override
+    public void draw(Graphics g) {
+        super.draw(g);
+        g.setColor(Color.RED);
+        g.fillRect((int)this.getLocation().x - 5, (int)this.getLocation().y , 210, 20);
+        g.setColor(Color.GREEN);
+        g.fillRect((int)this.getLocation().x - 5, (int)this.getLocation().y, (int)(210 * ((1.0 * getHealth())/(2500.0))), 20);
+        g.setColor(Color.BLACK);
+        g.drawRect((int)getLocation().x - 5, (int)this.getLocation().y, 210, 20);
     }
 
     public static class Factory{

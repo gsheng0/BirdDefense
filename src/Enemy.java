@@ -7,7 +7,7 @@ import java.util.*;
 public class Enemy
 {
     private boolean alive = true;
-    private int health, armor, damage, vision, attackSpeed, size;
+    private int health, armor, damage, vision, attackSpeed, size, money;
     private Map map;
     private Vector location;
     private Entity target;
@@ -20,7 +20,7 @@ public class Enemy
     private double angle = 0;
     private BufferedImage image;
 
-    public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, double moveSpeed, int size, BufferedImage image)
+    public Enemy(Map map, int health, int armor, Vector Location, int damage, int vision, int attackSpeed, double moveSpeed, int size, BufferedImage image, int money)
     {
         this.map = map;
         this.health = health;
@@ -34,6 +34,7 @@ public class Enemy
         this.maxHealth = health;
         this.target = map.getNest();
         this.image = image;
+        this.money = money;
     }
     public Vector getCenter(){
         return new Vector(location.x + size, location.y + size);
@@ -145,6 +146,7 @@ public class Enemy
         if(health <= 0) {
             alive = false;
             map.remove(this);
+            map.player.addMoney(money);
         }
     }
 

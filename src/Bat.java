@@ -2,8 +2,9 @@ import java.awt.image.BufferedImage;
 
 public class Bat extends Enemy{
     public Bat(Map map, Vector location){
-        super(map, 100, 2, location, 3, 150, 85, 0.25, 8, Util.BAT);
+        super(map, 100, 2, location, 3, 150, 85, 0.25, 8, Util.BAT, 2);
     }
+
     public static class Factory{
         private static Map map;
         public static void setMap(Map map) { Factory.map = map; }

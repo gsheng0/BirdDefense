@@ -3,6 +3,7 @@ public class Map{
     private ArrayList<Bird> birds = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private Nest nest;
+    Player player;
     public Map(){
 
     }
