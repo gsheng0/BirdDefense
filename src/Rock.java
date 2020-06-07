@@ -6,6 +6,6 @@ public class Rock extends Projectile{
     @Override
     public void draw(Graphics g) {
         counter += (int)(Math.random() * 2) + 1;
-        g.drawImage(Util.rotateDegrees(Util.ROCK, counter), (int)getLocation().x, (int)getLocation().y, null);
+        g.drawImage(Util.rotateDegrees(Util.ROCK, (int)(counter/10.0)), (int)getLocation().x, (int)getLocation().y, null);
     }
 }

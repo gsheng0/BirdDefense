@@ -4,13 +4,13 @@ import java.util.ArrayList;
 public class MassiveEgg extends Projectile{
     private int counter = 0;
     public MassiveEgg(Map map, Vector location, Vector stepVector){
-        super(map, location, stepVector, 150, 55, Util.MASSIVE_EGG);
+        super(map, location, stepVector, 150, 30, Util.MASSIVE_EGG);
     }
 
     @Override
     public void draw(Graphics g) {
         counter++;
-        g.drawImage(Util.rotateDegrees(Util.MASSIVE_EGG, counter * 3), (int)getLocation().x, (int)getLocation().y, null);
+        g.drawImage(Util.rotateDegrees(Util.MASSIVE_EGG, (int)(counter * 0.3)), (int)getLocation().x, (int)getLocation().y, null);
     }
 
     @Override
