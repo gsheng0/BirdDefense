@@ -16,7 +16,10 @@ public class Runner extends JPanel{
     Nest nest;
     Timer enemySpawnTimer;
     int counter = 0;
+    int ramp = 100;
+    int countTimer = 0;
     Player player;
+
 
     public Runner() {
         MouseComboListener.getInstance().setMap(map);
@@ -153,9 +156,8 @@ public class Runner extends JPanel{
             g.fillRect(0, 0, 1000, 800);
             if(nest.getHealth() <= 0)
                 cardLayout.show(mainPanel, "end");
-            if((int)(Math.random() * 40) == 0)
+            if(((int)(Math.random() * ((int)Math.max(40,(ramp - countTimer/60)))) == 0))
                 spawnEnemy();
-
             Graphics2D g2d = (Graphics2D) g;
             Color color1 = new Color(120,241,255);
             Color color2 = color1.darker();
@@ -216,6 +218,7 @@ public class Runner extends JPanel{
             for(Projectile proj : map.shouldRemove)
                 map.getProjectiles().remove(proj);
             repaint();
+            countTimer++;
         }
         public void spawnEnemy(){
             RandomInRanges randomXRanges = new RandomInRanges(51,949);
