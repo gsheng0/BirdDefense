@@ -18,9 +18,10 @@ public class MassiveChicken extends Bird {
         public static void setMap(Map map) { Factory.map = map; }
         public static MassiveChicken build(Vector location){
             MassiveChicken newest = new MassiveChicken(map, location);
-            if(map.player.getMoney() >= 750)
+            if(map.player.getMoney() >= 750) {
                 map.add(newest);
-            map.player.removeMoney(750);
+                map.player.removeMoney(750);
+            }
             return newest;
         }
     }

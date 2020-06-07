@@ -20,9 +20,10 @@ public class Chicken extends Bird {
         }
         public static Chicken build(Vector location){
             Chicken newest = new Chicken(map, location);
-            if(map.player.getMoney() >= 100)
+            if(map.player.getMoney() >= 100) {
                 map.add(newest);
-            map.player.removeMoney(100);
+                map.player.removeMoney(100);
+            }
             return newest;
         }
     }

@@ -7,9 +7,10 @@ public class Woodpecker extends Bird{
         public static void setMap(Map map) { Factory.map = map;}
         public static Woodpecker build(Vector location){
             Woodpecker newest = new Woodpecker(map, location);
-            if(map.player.getMoney() <= 50)
+            if(map.player.getMoney() >= 50) {
                 map.add(newest);
-            map.player.removeMoney(50);
+                map.player.removeMoney(50);
+            }
             return newest;
         }
     }
