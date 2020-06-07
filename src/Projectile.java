@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class Projectile {
     private Vector location;
@@ -32,7 +35,7 @@ public class Projectile {
         return en.getCenter().distanceFrom(this.getCenter()) - (en.getSize() + this.radius) <= radius;
     }
     public void exist(){
-        ArrayList<Enemy> inContact = new ArrayList<>();
+        List<Enemy> inContact = map.getEnemies().stream().filter(this::inContact).collect(Collectors.toList());
         for(Enemy en : map.getEnemies()){
             if(this.inContact(en))
                 inContact.add(en);
