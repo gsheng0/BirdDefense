@@ -7,12 +7,14 @@ import java.awt.image.BufferedImage;
 public class Util {
     public static GraphicsConfiguration config;
     public static BufferedImage CHICKEN, BAT, NEST, CHICKEN_RESIZE, MASSIVE_BAT, EGG, MASSIVE_CHICKEN, MASSIVE_EGG,
-            MASSIVE_CHICKEN_RESIZE, WOODPECKER, WOODPECKER_RESIZE, CROW, ROCK, CROW_RESIZE;
+            MASSIVE_CHICKEN_RESIZE, WOODPECKER, WOODPECKER_RESIZE, END_GAME, CROW, ROCK, CROW_RESIZE;
+
     static{
         config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
         CHICKEN = getBufferedImage("chicken.png");
         BAT = getBufferedImage("bat.png");
         NEST = getBufferedImage("nest.png");
+        END_GAME = getBufferedImage("endgame.png");
         CHICKEN_RESIZE = resize(CHICKEN, 85, 85);
         MASSIVE_BAT = resize(BAT, 200, 100);
         EGG = getBufferedImage("egg.png");

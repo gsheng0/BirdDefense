@@ -21,14 +21,13 @@ public class Runner extends JPanel{
         frame = new JFrame("Bird Game");
         MouseComboListener.getInstance().frame = frame;
         menuPanel = new JPanel();
-        endPanel = new JPanel();
+        endPanel = new EndPanel();
         gamePanel = new GamePanel();
 
         startButton.addActionListener(e -> {
             cardLayout.show(mainPanel, "game");
         });
         menuPanel.add(startButton);
-        endPanel.add(new JLabel("End Game"));
         mainPanel = new JPanel(cardLayout);
         mainPanel.add(menuPanel, "menu");
         mainPanel.add(gamePanel, "game");
@@ -59,6 +58,39 @@ public class Runner extends JPanel{
             }
         }
         int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
+    }
+    class EndPanel extends JPanel{
+        Color color1 = new Color(204, 153, 255);
+        Color color2 = new Color(193,240,240);
+        GradientPaint gp = new GradientPaint(0,0,color1,1400,800,color2);
+        GridBagConstraints gbc = new GridBagConstraints();
+        JButton restartButton = new JButton("Restart");
+        public EndPanel(){
+            gbc.gridwidth = GridBagConstraints.REMAINDER;
+            gbc.anchor = GridBagConstraints.CENTER;
+            setLayout(new GridBagLayout());
+            add(restartButton, gbc);
+            restartButton.addActionListener(e -> {
+                gamePanel = new GamePanel();
+                map.clear();
+                cardLayout.show(mainPanel, "game");
+            });
+            restartButton.setIcon(new ImageIcon(Util.BAT));
+            restartButton.setOpaque(false);
+            restartButton.setContentAreaFilled(false);
+            restartButton.setBorderPainted(false);
+
+        }
+        public Dimension getPreferredSize() {
+            return new Dimension(1400, 800);
+        }
+        public void paintComponent(Graphics g){
+            super.paintComponent(g);
+            Graphics2D g2d = (Graphics2D)g;
+            g2d.setPaint(gp);
+            g2d.fillRect(0,0,1400,800);
+            g2d.drawImage(Util.END_GAME, 700-Util.END_GAME.getWidth()/2,300-Util.END_GAME.getHeight()/2,null);
+        }
     }
     class GamePanel extends JPanel{
         public GamePanel(){
