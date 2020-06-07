@@ -43,11 +43,14 @@ public class Projectile {
         {
             this.location.x += stepVector.x;
             this.location.y += stepVector.y;
+            if((!Util.withinBounds((int)this.getLocation().x, 0, 1000)) || (!Util.withinBounds((int)this.getLocation().y, 0, 800)))
+                getMap().shouldRemove.add(this);
         }
         else {
             inContact.forEach(enemy -> enemy.takeDamage(damage));
             map.shouldRemove.add(this);
         }
+
 
     }
 
