@@ -129,7 +129,7 @@ public class Runner extends JPanel{
             g.setColor(Color.CYAN);
             for(Bird bird: map.getBirds())
                 g.fillOval((int)bird.getLocation().getX(), (int) bird.getLocation().getY(), bird.getSize() * 2, bird.getSize() * 2);
-          
+
 
         }
     }

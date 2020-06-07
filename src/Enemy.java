@@ -41,7 +41,7 @@ public class Enemy
         return new Vector(location.x + size, location.y + size);
     }
     public void draw(Graphics g){
-        BufferedImage rotated = Util.rotateDegrees(bat, (int)angle + 90);
+        BufferedImage rotated = Util.rotateDegrees(bat, -1 * (int)angle + 90);
         g.drawImage(rotated, (int)location.x, (int)location.y, null);
         g.setColor(Color.BLACK);
         g.drawOval((int)this.getCenter().x - vision, (int)this.getCenter().y - vision, vision * 2, vision * 2);
