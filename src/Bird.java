@@ -9,6 +9,8 @@ public class Bird extends Entity
     private int cooldown;
     private double angle = 0.0;
     private BufferedImage image;
+    private boolean angleChanged = false;
+    private BufferedImage current;
     public Bird(Map map, int health, int armor, Vector location, int size, int damage, int range, int attackSpeed, BufferedImage image)
     {
         super(map, health, armor, location, size);
@@ -25,8 +27,11 @@ public class Bird extends Entity
     public int getAttackSpeed() { return attackSpeed; }
     public void draw(Graphics g)
     {
-        BufferedImage rotated = Util.rotateDegrees(image, -1 * (int)angle + 90);
-        g.drawImage(rotated, (int)this.getLocation().x, (int)this.getLocation().y, null);
+        if(angleChanged) {
+            current = Util.rotateDegrees(image, -1 * (int) angle + 90);
+        }
+        g.drawImage(current, (int) this.getLocation().x, (int) this.getLocation().y, null);
+
         g.setColor(Color.RED);
         g.fillRect((int)getLocation().x + 5, (int)getLocation().y - 10, getSize() * 2, 10);
         g.setColor(Color.GREEN);
@@ -48,6 +53,7 @@ public class Bird extends Entity
     }
     public boolean inRange(Enemy en){ return this.getCenter().distanceFrom(en.getCenter()) - (this.getSize() + en.getSize()) <= range; }
     public void updateTarget(){
+        Enemy prev = target;
         updateEnemiesInRange();
         if(enemiesInRange.size() < 1) {
             target = null;
@@ -62,9 +68,15 @@ public class Bird extends Entity
                 closest = distance;
             }
         }
+        if(target != null && prev != target){
+            angleChanged = true;
+            angle = this.getCenter().getAngleTo(target.getCenter());
+        }
     }
     public void exist(){
+        angleChanged = false;
         updateTarget();
+
         if(cooldown <= 0){
             if(target != null){
                 this.attack(target);
@@ -73,8 +85,6 @@ public class Bird extends Entity
         }
         else cooldown--;
 
-        if(target != null)
-            angle = this.getCenter().getAngleTo(target.getCenter());
 
     }
 
