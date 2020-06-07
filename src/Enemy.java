@@ -136,7 +136,7 @@ public class Enemy
         else {
             double minDistance = Double.MAX_VALUE;
             for (Bird bird : birdsInVision) {
-                double distance = bird.getLocation().distanceFrom(this.location);
+                double distance = bird.getLocation().distanceFrom(this.location) - (bird.getSize());
                 if (distance < minDistance) {
                     target = bird;
                     minDistance = distance;

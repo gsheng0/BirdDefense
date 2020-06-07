@@ -2,7 +2,7 @@ import java.awt.*;
 
 public class MassiveBat extends Enemy{
     public MassiveBat(Map map, Vector location){
-        super(map, 2500, 20, location, 99, 250, 250, 0.12, 40, Util.MASSIVE_BAT, 100);
+        super(map, 2500, 20, location, 99, 250, 250, 0.12, 40, Util.MASSIVE_BAT, 10);
     }
 
     @Override

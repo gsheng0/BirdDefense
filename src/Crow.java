@@ -19,6 +19,8 @@ public class Crow extends Bird{
         public static Crow build(Vector location){
             Crow newest = new Crow(map, location);
             map.add(newest);
+            if(map.player.getMoney() <= 200)
+                map.player.removeMoney(200);
             return newest;
         }
     }

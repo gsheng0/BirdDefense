@@ -8,6 +8,7 @@ public class Player {
         map.player = this;
     }
     public void addMoney(int money) { this.money += money; }
+    public void removeMoney(int money) { this.money -= money; }
     public Map getMap() { return map; }
     public Nest getNest() { return nest; }
     public int getMoney() { return money; }
