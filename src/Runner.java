@@ -25,6 +25,7 @@ public class Runner extends JPanel{
     public Runner() {
         MouseComboListener.getInstance().setMap(map);
         frame = new JFrame("Bird Game");
+        MouseComboListener.getInstance().frame = frame;
         menuPanel = new JPanel();
         gamePanel = new GamePanel();
         startButton.addActionListener(e -> {
@@ -38,7 +39,7 @@ public class Runner extends JPanel{
         frame.add(mainPanel);
         frame.addMouseListener(MouseComboListener.getInstance());
         frame.addMouseMotionListener(MouseComboListener.getInstance());
-        frame.setSize(1000, 800);
+        frame.setSize(1400, 800);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -88,8 +89,8 @@ public class Runner extends JPanel{
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, 1000, 800);
             g.drawImage(Util.NEST, (int)nest.getLocation().getX(), (int)nest.getLocation().getY(), null);
-            map.getEnemies().stream().forEach(enemy -> enemy.draw(g));
-            map.getBirds().stream().forEach(bird -> bird.draw(g));
+            map.getEnemies().forEach(enemy -> enemy.draw(g));
+            map.getBirds().forEach(bird -> bird.draw(g));
 
             repaint();
         }
@@ -103,10 +104,10 @@ public class Runner extends JPanel{
             int randomY = 0;
             if(randomX < 100 || randomX > 900){
                 randomY = (int)(Math.random() * frame.getHeight());
-                randomX = randomX < 100 ? 0 : frame.getWidth();
+                randomX = randomX < 100 ? 0 : 1000;
             }
             else randomY = randomYRanges.getRandom();
-            map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 3, 0.25, 8));
+            map.add(new Enemy(map ,100, 2, new Vector(randomX, randomY), 3, 150, 25, 0.25, 8));
 
         }
     }
@@ -115,6 +116,7 @@ public class Runner extends JPanel{
         private static MouseComboListener instance;
         private MouseComboListener(){ }
         private Map map;
+        JFrame frame;
         public static MouseComboListener getInstance(){
             if(instance == null)
                 instance = new MouseComboListener();
@@ -131,6 +133,7 @@ public class Runner extends JPanel{
 
         @Override
         public void mousePressed(MouseEvent e) {
+            System.out.println(frame.getSize());
             //map.add(new Enemy(map ,100, 200, new Vector(e.getPoint()), 3, 150, 3, 3, 20));
         }
 
