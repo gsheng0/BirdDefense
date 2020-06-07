@@ -8,16 +8,14 @@ public class Bird extends Entity
     private ArrayList<Enemy> enemiesInRange = new ArrayList<>();
     private int cooldown;
     private double angle = 0.0;
-    private static BufferedImage chicken;
-    static{
-        chicken = Util.getBufferedImage("chicken.png");
-    }
-    public Bird(Map map, int health, int armor, Vector location, int size, int damage, int range, int attackSpeed)
+    private BufferedImage image;
+    public Bird(Map map, int health, int armor, Vector location, int size, int damage, int range, int attackSpeed, BufferedImage image)
     {
         super(map, health, armor, location, size);
         this.damage = damage;
         this.range = range;
         this.attackSpeed = attackSpeed;
+        this.image = image;
     }
 
     public int getDamage() { return damage; }
@@ -25,7 +23,7 @@ public class Bird extends Entity
     public int getAttackSpeed() { return attackSpeed; }
     public void draw(Graphics g)
     {
-        BufferedImage rotated = Util.rotateDegrees(chicken, -1 * (int)angle + 90);
+        BufferedImage rotated = Util.rotateDegrees(image, -1 * (int)angle + 90);
         g.drawImage(rotated, (int)this.getLocation().x, (int)this.getLocation().y, null);
         //g.setColor(Color.BLACK);
         //g.drawOval((int)this.getCenter().x - range, (int)(this.getCenter().y - range), range * 2, range * 2);

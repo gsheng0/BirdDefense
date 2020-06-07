@@ -43,11 +43,6 @@ public class Runner extends JPanel{
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
-    public void createBirds()
-    {
-        for(int x=0;x<7;x++)
-            map.add(new Bird(map, 100, 5, Vector.randomVector(),15,33,150,25));
-    }
     public static void main(String[] args) {
         new Runner();
     }
@@ -67,21 +62,13 @@ public class Runner extends JPanel{
         int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
     }
     class GamePanel extends JPanel{
-        BufferedImage bat;
-        BufferedImage nestImage;
         public GamePanel(){
             add(new JLabel("Game"));
             nest = new Nest(map, new Vector(350, 250));
-            URL resource = getClass().getResource("bat.png");
-            try {
-                bat = ImageIO.read(resource);
-                resource = getClass().getResource("nest.png");
-                nestImage = ImageIO.read(resource);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
             map.setNest(nest);
-            createBirds();
+            Chicken.Factory.setMap(map);
+            for(int i = 0; i < 7; i++)
+                Chicken.Factory.build(Vector.randomVector());
         }
         public Dimension getPreferredSize() {
             return new Dimension(1000, 800);
@@ -100,7 +87,7 @@ public class Runner extends JPanel{
                 0, 0, color1, 0, 800, color2);
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, 1000, 800);
-            g.drawImage(nestImage, (int)nest.getLocation().getX(), (int)nest.getLocation().getY(), null);
+            g.drawImage(Util.NEST, (int)nest.getLocation().getX(), (int)nest.getLocation().getY(), null);
             map.getEnemies().stream().forEach(enemy -> enemy.draw(g));
             map.getBirds().stream().forEach(bird -> bird.draw(g));
 

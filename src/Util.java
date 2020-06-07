@@ -6,8 +6,12 @@ import java.awt.image.BufferedImage;
 
 public class Util {
     public static GraphicsConfiguration config;
+    public static BufferedImage CHICKEN, BAT, NEST;
     static{
         config = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
+        CHICKEN = getBufferedImage("chicken.png");
+        BAT = getBufferedImage("bat.png");
+        NEST = getBufferedImage("nest.png");
     }
     public static BufferedImage getBufferedImage(String path){
         BufferedImage image = null;
