@@ -69,6 +69,7 @@ public class Runner extends JPanel{
             Bat.Factory.setMap(map);
             MassiveBat.Factory.setMap(map);
             MassiveChicken.Factory.setMap(map);
+            Woodpecker.Factory.setMap(map);
             player = new Player(map, nest);
             MassiveBat.Factory.build(new Vector(0, 0));
         }
@@ -100,11 +101,18 @@ public class Runner extends JPanel{
             g.fillRect(1000, 0, 400, 800);
             g2d.setStroke(new BasicStroke(2));
             g2d.setColor(Color.BLACK);
+
             g2d.drawRect(1020, 60, 360, 205);
             g2d.drawRect(1050, 95, 125, 135);
             g2d.drawRect(1225, 95, 125, 135);
             g2d.drawImage(Util.CHICKEN_RESIZE, 1050 + 20, 95 + 25, null);
             g2d.drawImage(Util.MASSIVE_CHICKEN_RESIZE, 1225, 95 + 5, null);
+
+            g2d.drawRect(1020, 290, 360, 205);
+            g2d.drawRect(1050, 325, 125, 135);
+            g2d.drawRect(1225, 325, 125, 135);
+            g2d.drawImage(Util.CHICKEN_RESIZE, 1050 + 20, 325 + 25, null);
+            g2d.drawImage(Util.MASSIVE_CHICKEN_RESIZE, 1225, 325 + 5, null);
 
             g.setFont(new Font("Times New Roman", Font.PLAIN, 18));
             g.setColor(Color.BLACK);
