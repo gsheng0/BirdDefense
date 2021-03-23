@@ -2,6 +2,7 @@
 * [General info](#general-info)
 * [Game info](#game-info)
 * [Setup](#setup)
+* [Screenshots](#screenshots)
 
 ## General info
 Bird Defense is a 2 day hackathon project made using only Java 8 and its basic packages.
@@ -26,4 +27,10 @@ Controls
 * When dragging, a circle will appear signifying the range of attack that tower has
 * Towers can be placed anywher on the map
 
+## Setup
+1. Download repository
+2. Make sure all files have been compiled
+3. Run the "Runner.java" file
+
+## Screenshots
 
