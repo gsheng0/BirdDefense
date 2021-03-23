@@ -33,4 +33,4 @@ Controls
 3. Run the "Runner.java" file
 
 ## Screenshots
-
+![alt text](https://github.com/gsheng0/BirdDefense/blob/master/Screen%20Shot%202021-03-22%20at%2011.51.26%20PM.png?raw=true)
