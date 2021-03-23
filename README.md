@@ -33,4 +33,15 @@ Controls
 3. Run the "Runner.java" file
 
 ## Screenshots
-![alt text](https://github.com/gsheng0/BirdDefense/blob/master/Screen%20Shot%202021-03-22%20at%2011.51.26%20PM.png?raw=true)
+![alt text](https://github.com/gsheng0/BirdDefense/blob/master/Screen%20Shot%202021-03-23%20at%2012.08.23%20AM.png?raw=true)
+*A player in the early stages of a game*
+
+![alt text](https://github.com/gsheng0/BirdDefense/blob/master/Screen%20Shot%202021-03-23%20at%2012.14.23%20AM.png?raw=true)
+*Looks alright so far...*
+
+![alt text](https://github.com/gsheng0/BirdDefense/blob/master/Screen%20Shot%202021-03-23%20at%2012.13.01%20AM.png?raw=true)
+*Defense being overwhelmed*
+
+![alt text](https://github.com/gsheng0/BirdDefense/blob/master/Screen%20Shot%202021-03-23%20at%2012.12.29%20AM.png?raw=true)
+*Game over screen*
+
