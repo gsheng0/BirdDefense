@@ -16,7 +16,7 @@ public class Runner extends JPanel{
     Nest nest;
     Timer enemySpawnTimer;
     int counter = 0;
-    int ramp = 100;
+    int ramp = 9000;
     int countTimer = 0;
     Player player;
 
@@ -156,7 +156,7 @@ public class Runner extends JPanel{
             g.fillRect(0, 0, 1000, 800);
             if(nest.getHealth() <= 0)
                 cardLayout.show(mainPanel, "end");
-            if(((int)(Math.random() * ((int)Math.max(40,(ramp - countTimer/60)))) == 0))
+            if(((int)(Math.random() * ((int)Math.max(40,(ramp - countTimer/6000.0)))) == 0))
                 spawnEnemy();
             Graphics2D g2d = (Graphics2D) g;
             Color color1 = new Color(120,241,255);
@@ -217,8 +217,9 @@ public class Runner extends JPanel{
             }
             for(Projectile proj : map.shouldRemove)
                 map.getProjectiles().remove(proj);
-            repaint();
             countTimer++;
+            repaint();
+
         }
         public void spawnEnemy(){
             RandomInRanges randomXRanges = new RandomInRanges(51,949);
@@ -234,7 +235,7 @@ public class Runner extends JPanel{
             }
             else randomY = randomYRanges.getRandom();
             Bat.Factory.build(new Vector(randomX, randomY));
-            if((int)(Math.random() * 1000) == 0)
+            if((int)(Math.random() * 1000) <  1000 * (countTimer / 1000000.0))
                 MassiveBat.Factory.build(new Vector(randomX, randomY));
         }
     }
