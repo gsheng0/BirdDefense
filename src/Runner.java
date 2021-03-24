@@ -15,7 +15,7 @@ public class Runner extends JPanel{
     Nest nest;
     Timer enemySpawnTimer;
     int counter = 0;
-    int ramp = 1000;
+    int ramp = 10000;
     int countTimer = 0;
     Player player;
 
@@ -37,7 +37,6 @@ public class Runner extends JPanel{
         frame.add(mainPanel);
         frame.addMouseListener(MouseComboListener.getInstance());
         frame.addMouseMotionListener(MouseComboListener.getInstance());
-        frame.addKeyListener(Keyboard.getInstance());
         frame.setSize(1400, 800);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -170,8 +169,7 @@ public class Runner extends JPanel{
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, 1000, 800);
 
-            if(!Keyboard.getInstance().paused)
-                map.simulate(); //calls exist method for all entities once
+            map.simulate(); //calls exist method for all entities once
 
             map.getNest().draw(g);
             //drawing birds, enemies, and projectiles
@@ -236,16 +234,13 @@ public class Runner extends JPanel{
             //removes offscreen projectiles
             for(Projectile proj : map.shouldRemove)
                 map.getProjectiles().remove(proj);
-            if(!Keyboard.getInstance().paused){
 
-                countTimer++;
-            }
+            countTimer++;
+
             repaint();
 
         }
         public void spawnEnemy(){ //decides which enemy to spawn
-            if(Keyboard.getInstance().paused)
-                return;
             RandomInRanges randomXRanges = new RandomInRanges(51,949);
             RandomInRanges randomYRanges = new RandomInRanges(0,0);
             randomYRanges.addRange(800,800);
@@ -261,31 +256,6 @@ public class Runner extends JPanel{
             Bat.Factory.build(new Vector(randomX, randomY));
             if((int)(Math.random() * 1000) == 0)
                 MassiveBat.Factory.build(new Vector(randomX, randomY));
-        }
-    }
-    public static class Keyboard implements KeyListener{
-        public boolean paused = false;
-        public static Keyboard instance;
-        public static Keyboard getInstance(){
-            if(instance == null)
-                instance = new Keyboard();
-            return instance;
-        }
-        @Override
-        public void keyTyped(KeyEvent e) {
-
-        }
-
-        @Override
-        public void keyPressed(KeyEvent e) {
-            if(e.getKeyCode() == KeyEvent.VK_SPACE){
-                paused = !paused;
-            }
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-
         }
     }
     public static class MouseComboListener implements MouseMotionListener, MouseListener{ //listener class that makes coding drag and drop eaiser

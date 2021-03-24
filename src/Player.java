@@ -1,7 +1,7 @@
 public class Player {
     private Map map;
     private Nest nest;
-    private int money = 20000;
+    private int money = 200;
     public Player(Map map, Nest nest){
         this.map = map;
         this.nest = nest;
