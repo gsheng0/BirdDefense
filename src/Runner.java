@@ -1,9 +1,8 @@
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
-import javax.swing.text.SimpleAttributeSet;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.security.Key;
 import java.util.*;
 import java.util.Timer;
 
@@ -16,7 +15,7 @@ public class Runner extends JPanel{
     Nest nest;
     Timer enemySpawnTimer;
     int counter = 0;
-    int ramp = 9000;
+    int ramp = 1000;
     int countTimer = 0;
     Player player;
 
@@ -29,7 +28,7 @@ public class Runner extends JPanel{
         endPanel = new EndPanel();
         gamePanel = new GamePanel();
 
-        
+
         mainPanel = new JPanel(cardLayout);
         mainPanel.add(menuPanel, "menu");
         mainPanel.add(gamePanel, "game");
@@ -38,6 +37,7 @@ public class Runner extends JPanel{
         frame.add(mainPanel);
         frame.addMouseListener(MouseComboListener.getInstance());
         frame.addMouseMotionListener(MouseComboListener.getInstance());
+        frame.addKeyListener(Keyboard.getInstance());
         frame.setSize(1400, 800);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -61,7 +61,7 @@ public class Runner extends JPanel{
         }
         int getRandom(){  return this.range.get(new Random().nextInt(this.range.size())); }
     }
-    class MenuPanel extends JPanel{
+    class MenuPanel extends JPanel{ //Start menu
         Color color1 = new Color(204, 153, 255);
         Color color2 = new Color(193,240,240);
         GradientPaint gp = new GradientPaint(0,0,color1,1400,800,color2);
@@ -100,7 +100,7 @@ public class Runner extends JPanel{
             g2d.drawImage(Util.BIRD_DEFENSE, 700-Util.BIRD_DEFENSE.getWidth()/2,300-Util.BIRD_DEFENSE.getHeight()/2,null);
         }
     }
-    class EndPanel extends JPanel{
+    class EndPanel extends JPanel{ //Gameover Screen
         Color color1 = new Color(204, 153, 255);
         Color color2 = new Color(193,240,240);
         GradientPaint gp = new GradientPaint(0,0,color1,1400,800,color2);
@@ -113,8 +113,9 @@ public class Runner extends JPanel{
             add(restartButton, gbc);
             restartButton.addActionListener(e -> {
                 gamePanel = new GamePanel();
-                map.clear();
+                map.clear(); //clears map
                 cardLayout.show(mainPanel, "game");
+                countTimer = 0; //resets ramp up
             });
             restartButton.setIcon(new ImageIcon(Util.BAT));
             restartButton.setOpaque(false);
@@ -135,7 +136,7 @@ public class Runner extends JPanel{
     }
     class GamePanel extends JPanel{
         public GamePanel(){
-            add(new JLabel("Game"));
+            //setting up map and passing in parameters for factory classes for entities
             nest = new Nest(map, new Vector(350, 250));
             map.setNest(nest);
             Chicken.Factory.setMap(map);
@@ -150,27 +151,35 @@ public class Runner extends JPanel{
         public Dimension getPreferredSize() {
             return new Dimension(1000, 800);
         }
-        
+
         public void paintComponent(Graphics g) {
             g.setColor(Color.WHITE);
             g.fillRect(0, 0, 1000, 800);
-            if(nest.getHealth() <= 0)
+            if(nest.getHealth() <= 0) //ends game if health goes below 1
                 cardLayout.show(mainPanel, "end");
-            if(((int)(Math.random() * ((int)Math.max(40,(ramp - countTimer/6000.0)))) == 0))
+            if(((int)(Math.random() * ((int)Math.max(40,(ramp - countTimer/60)))) == 0)) { //spawns random enemy
+                //becomes more likely as timer becomes larger and larger until countTimer == ramp
                 spawnEnemy();
+            }
+            //drawing map
             Graphics2D g2d = (Graphics2D) g;
             Color color1 = new Color(120,241,255);
             Color color2 = color1.darker();
             GradientPaint gp = new GradientPaint(
-                0, 0, color1, 0, 800, color2);
+                    0, 0, color1, 0, 800, color2);
             g2d.setPaint(gp);
             g2d.fillRect(0, 0, 1000, 800);
 
-            map.simulate();
+            if(!Keyboard.getInstance().paused)
+                map.simulate(); //calls exist method for all entities once
+
             map.getNest().draw(g);
+            //drawing birds, enemies, and projectiles
             map.getProjectiles().forEach(projectile -> projectile.draw(g));
             map.getEnemies().forEach(enemy -> enemy.draw(g));
             map.getBirds().forEach(bird -> bird.draw(g));
+
+            //drawing side bar
             g.setColor(new Color(40, 26, 13).brighter().brighter().brighter());
             g.fillRect(1000, 0, 400, 800);
             g2d.setStroke(new BasicStroke(2));
@@ -200,28 +209,43 @@ public class Runner extends JPanel{
             g.drawString("Money: " + player.getMoney(), 1015, 25);
             g.drawString("Health: " + player.getNest().getHealth(), 1015, 45);
 
-            if(MouseComboListener.getInstance().selection != MouseComboListener.Selection.none) {
-                if (MouseComboListener.getInstance().selection == MouseComboListener.Selection.chicken)
-                    g.drawImage(Util.CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
 
+            //draw tower if player is drag and dropping a tower selection
+            //also draws circle to show range of the selected tower
+            if(MouseComboListener.getInstance().selection != MouseComboListener.Selection.none) {
+                int mouseX = (int)MouseComboListener.getInstance().location.x - 25;
+                int mouseY = (int)MouseComboListener.getInstance().location.y - 25;
+                if (MouseComboListener.getInstance().selection == MouseComboListener.Selection.chicken) {
+                    g.drawImage(Util.CHICKEN, mouseX, mouseY, null);
+                    g.drawOval(mouseX - Chicken.RANGE + 25, mouseY - Chicken.RANGE + 25, Chicken.RANGE * 2, Chicken.RANGE * 2);
+                }
                 else if(MouseComboListener.getInstance().selection == MouseComboListener.Selection.massive_chicken){
-                    g.drawImage(Util.MASSIVE_CHICKEN, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
+                    g.drawImage(Util.MASSIVE_CHICKEN, mouseX, mouseY, null);
+                    g.drawOval(mouseX - MassiveChicken.RANGE + Util.MASSIVE_CHICKEN.getHeight()/2, mouseY - MassiveChicken.RANGE + Util.MASSIVE_CHICKEN.getHeight()/2, MassiveChicken.RANGE * 2, MassiveChicken.RANGE * 2);
                 }
                 else if(MouseComboListener.getInstance().selection == MouseComboListener.Selection.woodpecker){
-                    g.drawImage(Util.WOODPECKER, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
+                    g.drawImage(Util.WOODPECKER, mouseX, mouseY, null);
+                    g.drawOval(mouseX - Woodpecker.RANGE + 25, mouseY - Woodpecker.RANGE + 25, Woodpecker.RANGE * 2, Woodpecker.RANGE * 2);
                 }
                 else if(MouseComboListener.getInstance().selection == MouseComboListener.Selection.crow){
-                    g.drawImage(Util.CROW, (int)MouseComboListener.getInstance().location.x - 25, (int)MouseComboListener.getInstance().location.y - 25, null);
+                    g.drawImage(Util.CROW, mouseX, mouseY, null);
+                    g.drawOval(mouseX - Crow.RANGE + 25, mouseY - Crow.RANGE + 25, Crow.RANGE * 2, Crow.RANGE * 2);
                 }
 
             }
+            //removes offscreen projectiles
             for(Projectile proj : map.shouldRemove)
                 map.getProjectiles().remove(proj);
-            countTimer++;
+            if(!Keyboard.getInstance().paused){
+
+                countTimer++;
+            }
             repaint();
 
         }
-        public void spawnEnemy(){
+        public void spawnEnemy(){ //decides which enemy to spawn
+            if(Keyboard.getInstance().paused)
+                return;
             RandomInRanges randomXRanges = new RandomInRanges(51,949);
             RandomInRanges randomYRanges = new RandomInRanges(0,0);
             randomYRanges.addRange(800,800);
@@ -235,11 +259,36 @@ public class Runner extends JPanel{
             }
             else randomY = randomYRanges.getRandom();
             Bat.Factory.build(new Vector(randomX, randomY));
-            if((int)(Math.random() * 1000) <  1000 * (countTimer / 1000000.0))
+            if((int)(Math.random() * 1000) == 0)
                 MassiveBat.Factory.build(new Vector(randomX, randomY));
         }
     }
-    public static class MouseComboListener implements MouseMotionListener, MouseListener{
+    public static class Keyboard implements KeyListener{
+        public boolean paused = false;
+        public static Keyboard instance;
+        public static Keyboard getInstance(){
+            if(instance == null)
+                instance = new Keyboard();
+            return instance;
+        }
+        @Override
+        public void keyTyped(KeyEvent e) {
+
+        }
+
+        @Override
+        public void keyPressed(KeyEvent e) {
+            if(e.getKeyCode() == KeyEvent.VK_SPACE){
+                paused = !paused;
+            }
+        }
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+
+        }
+    }
+    public static class MouseComboListener implements MouseMotionListener, MouseListener{ //listener class that makes coding drag and drop eaiser
         private Vector center = new Vector(500, 400);
         private static MouseComboListener instance;
         private MouseComboListener(){ }
@@ -269,7 +318,7 @@ public class Runner extends JPanel{
         }
 
         @Override
-        public void mousePressed(MouseEvent e) {
+        public void mousePressed(MouseEvent e) { //if the mouse is pressed within the range of those tiles, the player has selected a tower
             if(Util.withinBounds(new Vector(e.getPoint()), new Vector(1050, 95), new Vector(1175, 230)))
                 selection = Selection.chicken;
 
@@ -286,7 +335,8 @@ public class Runner extends JPanel{
         }
 
         @Override
-        public void mouseReleased(MouseEvent e) {
+        public void mouseReleased(MouseEvent e) { //if the mouse is released on a valid location, place the tower
+            //deletes selection if not valid
             if(Util.withinBounds(e.getX(), 0, 1000) && Util.withinBounds(e.getY(), 0, 800))
             {
                 Vector buildLocation = new Vector(e.getPoint().x - 25, e.getPoint().y - 25);
@@ -315,11 +365,11 @@ public class Runner extends JPanel{
         @Override
         public void mouseDragged(MouseEvent e) {
             location = new Vector(e.getPoint());
-        }
+        } //updates mouse location
 
         @Override
         public void mouseMoved(MouseEvent e) {
             location = new Vector(e.getPoint());
-        }
+        } //updates mouse location
     }
 }

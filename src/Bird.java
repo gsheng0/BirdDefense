@@ -28,11 +28,12 @@ public class Bird extends Entity
     public int getAttackSpeed() { return attackSpeed; }
     public void draw(Graphics g)
     {
-        if(angleChanged) {
+        if(angleChanged) { //updates image to be draw if angle has changed
             current = Util.rotateDegrees(image, -1 * (int) angle + 90);
         }
         g.drawImage(current, (int) this.getLocation().x, (int) this.getLocation().y, null);
 
+        //drawing health bar
         g.setColor(Color.RED);
         g.fillRect((int)getLocation().x + 5, (int)getLocation().y - 10, getSize() * 2, 10);
         g.setColor(Color.GREEN);
@@ -61,7 +62,7 @@ public class Bird extends Entity
             return;
         }
         double closest = 10000000000.0;
-        for(Enemy enemy : enemiesInRange){
+        for(Enemy enemy : enemiesInRange){ //chooses closest enemy to attack
             double distance = enemy.getLocation().distanceFrom(this.getLocation());
             if(distance < closest)
             {
@@ -69,12 +70,12 @@ public class Bird extends Entity
                 closest = distance;
             }
         }
-        if(target != null && prev != target){
+        if(target != null && prev != target){ //changes angle only if there is a new target to attack
             angleChanged = true;
             angle = this.getCenter().getAngleTo(target.getCenter());
         }
     }
-    public void exist(){
+    public void exist(){ //called every frame
         angleChanged = false;
         updateTarget();
 

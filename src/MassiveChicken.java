@@ -1,6 +1,12 @@
 public class MassiveChicken extends Bird {
+    public static final int MAX_HEALTH = 2500;
+    public static final int ARMOR = 5;
+    public static final int SIZE = 60;
+    public static final int DAMAGE = 200;
+    public static final int RANGE = 400;
+    public static final int ATTACK_SPEED = 1000;
     public MassiveChicken(Map map, Vector location){
-        super(map, 2500, 5, location, 60, 200, 350, 900, Util.MASSIVE_CHICKEN);
+        super(map, MAX_HEALTH, ARMOR, location, SIZE, DAMAGE, RANGE, ATTACK_SPEED, Util.MASSIVE_CHICKEN);
     }
 
     @Override

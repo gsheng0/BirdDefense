@@ -1,8 +1,16 @@
 import java.awt.*;
 
 public class MassiveBat extends Enemy{
+    public static final int MAX_HEALTH = 2500;
+    public static final int ARMOR = 20;
+    public static final int DAMAGE = 99;
+    public static final int VISION = 250;
+    public static final int ATTACK_SPEED = 250;
+    public static final double MOVE_SPEED = 0.12;
+    public static final int SIZE = 40;
+    public static final int MONEY = 10;
     public MassiveBat(Map map, Vector location){
-        super(map, 2500, 20, location, 99, 250, 250, 0.12, 40, Util.MASSIVE_BAT, 10);
+        super(map, MAX_HEALTH, ARMOR, location, DAMAGE, VISION, ATTACK_SPEED, MOVE_SPEED, SIZE, Util.MASSIVE_BAT, MONEY);
     }
 
     @Override

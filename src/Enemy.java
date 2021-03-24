@@ -42,8 +42,7 @@ public class Enemy
     }
     public void draw(Graphics g){
         if(angleChanged) {
-            current = Util.rotateDegrees(image, -1 * (int) angle + 90);
-            g.drawImage(current, (int) location.x, (int) location.y, null);
+            current = Util.rotateDegrees(image, -1 * (int) angle + 90); //rotates image if angle has been changed
         }
         g.drawImage(current, (int) location.x, (int) location.y, null);
         //g.setColor(Color.BLACK);
@@ -82,26 +81,26 @@ public class Enemy
     }
     public void exist() //called every frame
     {
-        angleChanged = false;
-        cooldown--;
-        updateTarget();
+        angleChanged = false; //assumes angle has not been changed
+        cooldown--; //lowers countdowns for attacks
+        updateTarget(); //updates the targets in vision in case player has placed a tower
 
-        if(this.canAttack(target))
+        if(this.canAttack(target)) //if the target is in attack range
         {
             if(cooldown <= 0)
             {
                 this.attack(target);
-                cooldown = attackSpeed;
+                cooldown = attackSpeed; //resets cooldown counter
             }
         }
-        else {
+        else { //if the target is not in range, moves
             this.location.x += moveComponent.x;
             this.location.y += moveComponent.y;
 
         }
 
     }
-    public void setMoveComponent(Vector other){
+    public void setMoveComponent(Vector other){ //Calculates the x and y components of the steps taken each frame
         double distance = this.getCenter().distanceFrom(other);
         double time = distance / ((double)moveSpeed);
         double xDistance = other.x - location.x;
@@ -130,10 +129,10 @@ public class Enemy
     {
         Entity prev = target;
         updateBirdsInVision();
-        if(birdsInVision.size() < 1) {
+        if(birdsInVision.size() < 1) { //if no towers are in vision, heads towards nest
             target = this.getMap().getNest();
         }
-        else {
+        else { //moves towards closest tower
             double minDistance = Double.MAX_VALUE;
             for (Bird bird : birdsInVision) {
                 double distance = bird.getLocation().distanceFrom(this.location) - (bird.getSize());
@@ -143,11 +142,11 @@ public class Enemy
                 }
             }
         }
-        if(target != prev) {
+        if(target != prev) { //updates angle if target has changed
             angle = this.getCenter().getAngleTo(target.getCenter());
             angleChanged = true;
         }
-        setMoveComponent(target.getCenter());
+        setMoveComponent(target.getCenter()); //updates move component
     }
     public Entity getTarget() { return target; }
     public boolean isAlive() { return alive; }

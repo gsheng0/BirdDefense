@@ -1,6 +1,12 @@
-public class Crow extends Bird{
+public class Crow extends Bird {
+    public static final int MAX_HEALTH = 150;
+    public static final int ARMOR = 5;
+    public static final int SIZE = 15;
+    public static final int DAMAGE = 66;
+    public static final int RANGE = 100;
+    public static final int ATTACK_SPEED = 115;
     public Crow(Map map, Vector location){
-        super(map, 150, 5, location, 15, 66, 100, 115, Util.CROW);
+        super(map, MAX_HEALTH, ARMOR, location, SIZE, DAMAGE, RANGE, ATTACK_SPEED, Util.CROW);
     }
 
     @Override

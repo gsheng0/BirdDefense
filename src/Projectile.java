@@ -32,7 +32,7 @@ public class Projectile {
         return new Vector(location.x + radius, location.y + radius);
     }
     public boolean inContact(Enemy en){
-        return en.getCenter().distanceFrom(this.getCenter()) - (en.getSize() + this.radius) <= radius;
+        return en.getCenter().distanceFrom(this.getCenter()) - (en.getSize() + this.radius) <= radius/2;
     }
     public void exist(){
         List<Enemy> inContact = map.getEnemies().stream().filter(this::inContact).collect(Collectors.toList());

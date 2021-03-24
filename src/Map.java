@@ -1,5 +1,7 @@
 import java.util.*;
 public class Map{
+    //container for everything within one map
+    //an "instance" of the game
     private ArrayList<Bird> birds = new ArrayList<>();
     private ArrayList<Enemy> enemies = new ArrayList<>();
     private ArrayList<Projectile> projectiles = new ArrayList<>();

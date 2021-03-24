@@ -1,8 +1,11 @@
 import java.awt.*;
 
-public class Nest extends Entity{
+public class Nest extends Entity {
+    public static final int MAX_HEALTH = 2500;
+    public static final int ARMOR = 3;
+    public static final int SIZE = 150;
     public Nest(Map map, Vector location){
-        super(map, 2500, 3, location, 150);
+        super(map, MAX_HEALTH, ARMOR, location, SIZE);
     }
     public void draw(Graphics g){
         Graphics2D g2 = (Graphics2D) g;

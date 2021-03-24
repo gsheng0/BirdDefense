@@ -2,6 +2,7 @@ import java.awt.*;
 
 public class Rock extends Projectile{
     private int counter = 0;
+
     public Rock(Map map, Vector location, Vector stepVector){ super(map, location, stepVector, 66, 20, Util.ROCK);}
     @Override
     public void draw(Graphics g) {

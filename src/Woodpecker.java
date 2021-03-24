@@ -1,6 +1,13 @@
-public class Woodpecker extends Bird{
+public class Woodpecker extends Bird {
+    public static final int MAX_HEALTH = 250;
+    public static final int ARMOR = 5;
+    public static final int SIZE = 13;
+    public static final int DAMAGE = 10;
+    public static final int RANGE = 25;
+    public static final int ATTACK_SPEED = 10;
+
     public Woodpecker(Map map, Vector location){
-        super(map, 250, 5, location, 13, 10, 25, 10, Util.WOODPECKER);
+        super(map, MAX_HEALTH, ARMOR, location, SIZE, DAMAGE, RANGE, ATTACK_SPEED, Util.WOODPECKER);
     }
     public static class Factory{
         private static Map map;
